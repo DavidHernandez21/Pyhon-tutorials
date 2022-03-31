@@ -1,0 +1,11 @@
+PATTERNS:
+  PATH:
+    pattern_attached: "data/numeri_italiano_1_999.zip"
+    pattern_200_900: "data/duecento_novecento.zip"
+    main_pattern: "data/odict_mapping_numbers.zip"
+    pattern_nta_nti: "data/numeri_nta_nti.zip"
+  PATTERN:
+    letter_num_pattern: "([0-9]*)([a-zA-Z]*)"
+
+
+
