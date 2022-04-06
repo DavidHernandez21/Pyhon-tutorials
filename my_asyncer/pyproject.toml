@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "my-asyncer-test"
+version = "0.1.0"
+description = ""
+authors = ["DavidHernandez21 <asbeldavid.hernandez@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+asyncer = "^0.0.1"
+anyio = "^3.5.0"
+
+[tool.poetry.dev-dependencies]
+pylint = "^2.12.2"
+pydocstyle = "^6.1.1"
+pycodestyle = "^2.8.0"
+mypy = "^0.931"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
