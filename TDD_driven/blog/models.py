@@ -75,7 +75,7 @@ class ArticleManager:
             raise NotFound
 
         id, author, title, content = record
-        return Article(id=id,author=author, title=title, content=content)  # Row can be unpacked as dict
+        return Article(id=id,author=author, title=title, content=content)
 
     @staticmethod
     @conn_decorator_sqlite3(row_factory=sqlite3.Row)

@@ -2,6 +2,7 @@ from typing import List
 from flask import Flask, jsonify, request
 from blog.commands import CreateArticleCommand, CreateTableCommand, AlreadyExists
 from blog.queries import GetArticleByIDQuery, ListArticlesQuery
+from blog.models import NotFound
 from pydantic import ValidationError
 app = Flask(__name__)
 
@@ -12,6 +13,11 @@ def display_error(error_list: ValidationError.errors):
     """
     err_dict = {"missing_fields": [error['loc'][0] for error in error_list]}
     return jsonify(err_dict)
+
+
+@app.errorhandler(NotFound)
+def handle_not_found(error):
+    return jsonify({"error": "Article not found"}), 404
 
 @app.errorhandler(ValidationError)
 def handle_validation_exception(error):
