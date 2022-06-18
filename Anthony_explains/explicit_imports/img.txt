@@ -1,0 +1,12 @@
+a/
+├── __init__.py
+├── a.py
+└── b
+    ├── __init__.py
+    ├── b.py
+    └── c
+        ├── __init__.py
+        ├── bar.py
+        └── foo.py
+
+2 directories, 7 files
