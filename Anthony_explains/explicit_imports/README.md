@@ -1,7 +1,7 @@
 [video](https://www.youtube.com/watch?v=uwtupH7LJco)
 
 directory tree
-![alt tree](img.txt)
+![tree](https://github.com/DavidHernandez21/Pyhon-tutorials/blob/main/Anthony_explains/explicit_imports/img.txt)
 
 using python3 a/b/c/bar.py
 
