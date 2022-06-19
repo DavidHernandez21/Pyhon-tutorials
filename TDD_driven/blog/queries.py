@@ -2,7 +2,8 @@ from typing import List
 
 from pydantic import BaseModel
 
-from blog.models import ArticleManager, Article
+from blog.models import Article
+from blog.models import ArticleManager
 
 
 class ListArticlesQuery:

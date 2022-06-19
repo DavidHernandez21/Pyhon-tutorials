@@ -1,9 +1,16 @@
 from typing import List
-from flask import Flask, jsonify, request
-from blog.commands import CreateArticleCommand, CreateTableCommand, AlreadyExists
-from blog.queries import GetArticleByIDQuery, ListArticlesQuery
-from blog.models import NotFound
+
+from flask import Flask
+from flask import jsonify
+from flask import request
 from pydantic import ValidationError
+
+from blog.commands import AlreadyExists
+from blog.commands import CreateArticleCommand
+from blog.commands import CreateTableCommand
+from blog.models import NotFound
+from blog.queries import GetArticleByIDQuery
+from blog.queries import ListArticlesQuery
 app = Flask(__name__)
 
 

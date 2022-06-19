@@ -8,6 +8,7 @@ pydantic = {extras = ["email"], version = "*"}
 
 [dev-packages]
 pytest = "*"
+reorder-python-imports = "*"
 
 [requires]
-python_version = "3.9"
+python_version = "3.10"

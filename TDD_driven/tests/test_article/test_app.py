@@ -1,12 +1,13 @@
 import json
 import pathlib
+from typing import Dict
 
 import pytest
-from jsonschema import validate, RefResolver
+from jsonschema import RefResolver
+from jsonschema import validate
 
 from blog.app import app
 from blog.models import ArticleManager
-from typing import Dict
 
 
 @pytest.fixture

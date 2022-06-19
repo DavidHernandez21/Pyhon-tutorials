@@ -1,7 +1,11 @@
-from pydantic import BaseModel, EmailStr
 import contextlib
 
-from blog.models import Article, NotFound, ArticleManager
+from pydantic import BaseModel
+from pydantic import EmailStr
+
+from blog.models import Article
+from blog.models import ArticleManager
+from blog.models import NotFound
 
 
 class AlreadyExists(Exception):
