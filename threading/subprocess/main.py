@@ -26,7 +26,7 @@ my_timer = Timer(2, kill_process, kwargs={"process": ping})
 try:
 
     my_timer.start()
-    outs, errs = ping.communicate(timeout=1)
+    outs, errs = ping.communicate(timeout=3)
     print(ping.returncode)
     print(outs)
     print(errs)

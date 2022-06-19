@@ -5,21 +5,21 @@ import random
 import threading
 import time
 
-def producer(queue: queue.Queue, event: threading.Event) -> None:
+def producer(my_queue: queue.Queue, event: threading.Event) -> None:
     """Pretend we're getting a number from the network."""
     while not event.is_set():
         message = random.randint(1, 101)
         logging.info("Producer got message: %s", message)
-        queue.put(message)
+        my_queue.put(message)
 
     logging.info("Producer received event. Exiting")
 
-def consumer(queue: queue.Queue, event: threading.Event) -> None:
+def consumer(my_queue: queue.Queue, event: threading.Event) -> None:
     """Pretend we're saving a number in the database."""
-    while not event.is_set() or not queue.empty():
-        message = queue.get()
+    while not event.is_set() or not my_queue.empty():
+        message = my_queue.get()
         logging.info(
-            "Consumer storing message: %s (approx size=%d)", message, queue.qsize()
+            "Consumer storing message: %s (approx size=%d)", message, my_queue.qsize()
         )
 
     logging.info("Consumer received event. Exiting")
