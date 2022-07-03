@@ -1,0 +1,94 @@
+version: '3.9'
+services:
+    redis:
+        image: redis
+        restart: always
+        ports:
+          - '6379:6379'
+        container_name: redis-cache
+        networks:
+          - celery-network
+
+
+    rabbitmq:
+        image: rabbitmq:3-management-alpine
+        container_name: "some-rabbit"
+        hostname: "my-rabbit"
+        ports:
+          - 5672:5672
+          - 15672:15672
+        # volumes:
+        #     - rabbitmq_data:/var/lib/rabbitmq/
+        #     - rabbitmq_log:/var/log/rabbitmq
+        networks:
+          - celery-network
+    
+    # fastapi_app:
+    #     build:
+    #         context: ./fastapi_app
+    #         dockerfile: Dockerfile
+    #     container_name: "fastapi_app"
+    #     # hostname: "fastapi_app"
+    #     ports:
+    #       - 8080:8080
+    #     networks:
+    #       - celery-network
+    #     depends_on:
+    #         - celery_worker
+    
+    celery_worker:
+        build:
+            context: ./celery_worker
+            dockerfile: Dockerfile
+        container_name: "celery_worker"
+        volumes:
+          - ./celery_worker/tasks.py:/celery_worker/tasks.py
+          - ./celery_worker/celeryconfig.py:/celery_worker/celeryconfig.py
+        networks:
+          - celery-network
+        depends_on:
+          - rabbitmq
+          - redis
+        tty: true
+        stdin_open: true
+        command : bash
+    
+    celery_app:
+        build:
+            context: ./celery_worker
+            dockerfile: Dockerfile_app
+        container_name: "celery_app"
+        volumes:
+          - ./celery_worker/tasks.py:/celery_worker/tasks.py
+          - ./celery_worker/main.py:/celery_worker/main.py
+          - ./celery_worker/celeryconfig.py:/celery_worker/celeryconfig.py
+        networks:
+          - celery-network
+        depends_on:
+          - rabbitmq
+          - redis
+        tty: true
+        stdin_open: true
+        command : bash
+    
+    celery_send_task:
+        build:
+            context: ./send_task
+            dockerfile: Dockerfile
+        container_name: "celery_send_task"
+        volumes:
+          - ./send_task/send_task.py:/celery_worker/send_task.py
+        networks:
+          - celery-network
+        depends_on:
+          - rabbitmq
+          - redis
+        tty: true
+        stdin_open: true
+        command : bash
+
+networks:
+  celery-network:
+    driver: bridge
+
+          
