@@ -1,4 +1,5 @@
-from itertools import cycle, islice
+from itertools import cycle
+from itertools import islice
 
 players = ("John", "Ben", "Martin", "Peter", "David")
 

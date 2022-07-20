@@ -1,6 +1,9 @@
-from typing import Iterable
+from collections.abc import Iterable
+
 import more_itertools
+
 num_events = 0
+
 
 def _increment_num_events(event: int):
     global num_events

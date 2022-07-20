@@ -1,7 +1,6 @@
 """
 Example application showing Python 3.10 structural pattern matching.
 """
-
 import shlex
 from dataclasses import dataclass
 from typing import List
@@ -63,7 +62,9 @@ def run_command_v4(command: Command) -> None:
             print(f"Loading filename {filename}.")
         case Command(command="save", arguments=[filename]):
             print(f"Saving filename {filename}.")
-        case Command(command="quit" | "exit" | "bye", arguments=["--force" | "-f", *rest]):
+        case Command(
+            command="quit" | "exit" | "bye", arguments=["--force" | "-f", *rest]
+        ):
             print("Sending SIGTERM to all processes and quitting the program.")
             quit()
         case Command(command="quit" | "exit" | "bye"):
@@ -88,5 +89,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
-

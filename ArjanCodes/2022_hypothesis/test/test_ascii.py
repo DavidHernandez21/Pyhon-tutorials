@@ -1,6 +1,7 @@
+from example import from_ascii_codes
+from example import to_ascii_codes
 from hypothesis import given
 from hypothesis.strategies import text
-from example import from_ascii_codes, to_ascii_codes
 
 
 @given(text())

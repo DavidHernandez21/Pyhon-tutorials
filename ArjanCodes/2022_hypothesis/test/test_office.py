@@ -1,12 +1,12 @@
 from typing import Callable
 
 from hypothesis import given
-from hypothesis.strategies import SearchStrategy, composite, integers
-from office import (
-    Employee,
-    fire_random_employee,
-    generate_random_team,
-)
+from hypothesis.strategies import composite
+from hypothesis.strategies import integers
+from hypothesis.strategies import SearchStrategy
+from office import Employee
+from office import fire_random_employee
+from office import generate_random_team
 
 
 @composite

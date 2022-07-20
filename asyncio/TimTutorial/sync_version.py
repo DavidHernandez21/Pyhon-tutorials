@@ -1,6 +1,8 @@
-import requests
-# import aiohttp
 from time import perf_counter
+
+import requests
+
+# import aiohttp
 
 url = "https://jsonplaceholder.typicode.com/todos/{}"
 # symbols = ['AAPL', 'GOOG', 'TSLA', 'MSFT', 'AAPL']

@@ -1,5 +1,6 @@
 import random
-from enum import Enum, auto
+from enum import auto
+from enum import Enum
 
 
 class Employee(Enum):

@@ -1,12 +1,15 @@
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.background import BackgroundTasks
-from redis_om import get_redis_connection, HashModel
-from starlette.requests import Request
-import requests, time
-from os import getenv
-from dotenv import load_dotenv
 import pathlib
+import time
+from os import getenv
+
+import requests
+from dotenv import load_dotenv
+from fastapi import FastAPI
+from fastapi.background import BackgroundTasks
+from fastapi.middleware.cors import CORSMiddleware
+from redis_om import get_redis_connection
+from redis_om import HashModel
+from starlette.requests import Request
 
 
 load_dotenv(pathlib.Path(pathlib.Path(__file__).parent.parent.absolute(), ".env"))
@@ -27,6 +30,7 @@ redis = get_redis_connection(
     decode_responses=True,
 )
 
+
 class Order(HashModel):
     product_id: str
     price: float
@@ -39,12 +43,12 @@ class Order(HashModel):
         database = redis
 
 
-@app.get('/orders/{pk}')
+@app.get("/orders/{pk}")
 def get(pk: str):
     return Order.get(pk)
 
 
-@app.post('/orders')
+@app.post("/orders")
 async def create(request: Request, background_tasks: BackgroundTasks):  # id, quantity
     body = await request.json()
 
@@ -52,12 +56,12 @@ async def create(request: Request, background_tasks: BackgroundTasks):  # id, qu
     product = req.json()
 
     order = Order(
-        product_id=body['id'],
-        price=product['price'],
-        fee=0.2 * product['price'],
-        total=1.2 * product['price'],
-        quantity=body['quantity'],
-        status='pending'
+        product_id=body["id"],
+        price=product["price"],
+        fee=0.2 * product["price"],
+        total=1.2 * product["price"],
+        quantity=body["quantity"],
+        status="pending",
     )
     order.save()
 
@@ -68,7 +72,7 @@ async def create(request: Request, background_tasks: BackgroundTasks):  # id, qu
 
 def order_completed(order: Order):
     time.sleep(5)
-    order.status = 'completed'
+    order.status = "completed"
     order.save()
     # this will create the stream 'order_completed' if it doesn't exist
-    redis.xadd('order_completed', order.dict(), '*')
+    redis.xadd("order_completed", order.dict(), "*")

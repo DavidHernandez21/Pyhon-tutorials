@@ -1,7 +1,10 @@
-import asyncio
-import aiohttp
-# import os
 from time import perf_counter
+
+import aiohttp
+
+import asyncio
+
+# import os
 # To work with the .env file
 # from dotenv import load_dotenv
 # load_dotenv()
@@ -25,7 +28,10 @@ async def get_symbols():
 
         # tasks = get_tasks(session)
         # you could also do
-        tasks = [asyncio.create_task(session.get(url.format(symbol), ssl=False)) for symbol in range(1, 201)]
+        tasks = [
+            asyncio.create_task(session.get(url.format(symbol), ssl=False))
+            for symbol in range(1, 201)
+        ]
         responses = await asyncio.gather(*tasks)
         for response in responses:
             results.append(await response.json())

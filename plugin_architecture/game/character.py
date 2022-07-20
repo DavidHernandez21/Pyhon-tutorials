@@ -1,5 +1,4 @@
 """Represents a basic game character."""
-
 from typing import Protocol
 
 

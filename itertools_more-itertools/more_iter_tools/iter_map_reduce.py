@@ -1,5 +1,6 @@
 from more_itertools import map_reduce
-data = 'This sentence has words of various lengths in it, both short ones and long ones'.split()
+
+data = "This sentence has words of various lengths in it, both short ones and long ones".split()
 
 # keyfunc = lambda x: len(x)
 result = map_reduce(data, len)

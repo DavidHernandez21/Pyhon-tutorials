@@ -12,4 +12,3 @@ class Greeter:
 
 with Greeter("David") as grt:
     print(f"{grt.age} is doing stuff...")
-

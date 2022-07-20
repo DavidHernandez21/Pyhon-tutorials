@@ -1,19 +1,19 @@
-from functools import singledispatch
 from dataclasses import dataclass
+from functools import singledispatch
 
 
 @dataclass
 class Tea:
     kind: str
     temp: int
-    
-    
+
+
 @dataclass
 class Coffee:
     kind: str
     temp: int
-    
-    
+
+
 @singledispatch
 def boil(obj=None):
     raise NotImplementedError("No boiler instruction for this drink")

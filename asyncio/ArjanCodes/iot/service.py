@@ -1,9 +1,14 @@
-import asyncio
 import random
 import string
-from typing import Any, Awaitable, Protocol, Iterable
+from collections.abc import Awaitable
+from collections.abc import Iterable
+from typing import Any
+from typing import Protocol
 
-from iot.message import Message, MessageType
+from iot.message import Message
+from iot.message import MessageType
+
+import asyncio
 
 
 def generate_id(length: int = 8):
@@ -17,7 +22,9 @@ class Device(Protocol):
     async def disconnect(self) -> None:
         ...
 
-    async def send_message(self, message_type: MessageType, data: str = "", duration: float = .5) -> None:
+    async def send_message(
+        self, message_type: MessageType, data: str = "", duration: float = 0.5
+    ) -> None:
         ...
 
 
@@ -57,11 +64,18 @@ class IOTService:
 
         print("=====END OF PROGRAM IN SEQUENCE======")
 
-    async def run_program_parseq(self, functions_parallel: Iterable[Awaitable[Any]],
-                                 functions_sequence: Iterable[Awaitable[Any]]) -> None:
+    async def run_program_parseq(
+        self,
+        functions_parallel: Iterable[Awaitable[Any]],
+        functions_sequence: Iterable[Awaitable[Any]],
+    ) -> None:
         print("=====RUNNING PROGRAM======")
-        await self.run_program_parallel(*functions_parallel, self.run_program_sequence(*functions_sequence))
+        await self.run_program_parallel(
+            *functions_parallel, self.run_program_sequence(*functions_sequence)
+        )
         print("=====END OF PROGRAM======")
 
     async def send_msg(self, msg: Message) -> None:
-        await self.devices[msg.device_id].send_message(msg.msg_type, msg.data, duration=msg.duration)
+        await self.devices[msg.device_id].send_message(
+            msg.msg_type, msg.data, duration=msg.duration
+        )

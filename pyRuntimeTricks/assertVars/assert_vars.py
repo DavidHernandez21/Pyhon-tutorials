@@ -2,8 +2,8 @@ import ast
 import inspect
 import sys
 import traceback
-
-from _ast import Assert, Name
+from _ast import Assert
+from _ast import Name
 
 
 def _get_assert_at_line(node, line):

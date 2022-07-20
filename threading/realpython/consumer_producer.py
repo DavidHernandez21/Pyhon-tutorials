@@ -2,8 +2,10 @@ import concurrent.futures
 import logging
 import queue
 import random
-import threading
 import time
+
+import threading
+
 
 def producer(my_queue: queue.Queue, event: threading.Event) -> None:
     """Pretend we're getting a number from the network."""
@@ -13,6 +15,7 @@ def producer(my_queue: queue.Queue, event: threading.Event) -> None:
         my_queue.put(message)
 
     logging.info("Producer received event. Exiting")
+
 
 def consumer(my_queue: queue.Queue, event: threading.Event) -> None:
     """Pretend we're saving a number in the database."""
@@ -24,10 +27,10 @@ def consumer(my_queue: queue.Queue, event: threading.Event) -> None:
 
     logging.info("Consumer received event. Exiting")
 
+
 if __name__ == "__main__":
     my_format = "%(asctime)s: %(message)s"
-    logging.basicConfig(format=my_format, level=logging.INFO,
-                        datefmt="%H:%M:%S")
+    logging.basicConfig(format=my_format, level=logging.INFO, datefmt="%H:%M:%S")
 
     pipeline = queue.Queue(maxsize=10)
     event = threading.Event()

@@ -1,5 +1,4 @@
 """Game extension that adds a bard character."""
-
 from dataclasses import dataclass
 
 from game import factory

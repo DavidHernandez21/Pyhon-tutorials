@@ -1,5 +1,5 @@
-from itertools import pairwise
 import random
+from itertools import pairwise
 
 l = [random.randint(0, 100) for _ in range(10)]
 # print(id(l))

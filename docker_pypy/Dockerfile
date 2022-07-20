@@ -22,4 +22,3 @@ COPY --from=builder /${VENV_NAME} /${VENV_NAME}
 RUN apt update -y && \
     apt upgrade -y && \
     apt autoremove -y
-

@@ -1,4 +1,5 @@
-from more_itertools import divide, distribute
+from more_itertools import distribute
+from more_itertools import divide
 
 data = ("first", "second", "third", "fourth", "fifth", "sixth", "seventh")
 

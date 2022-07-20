@@ -1,5 +1,5 @@
-from operator import itemgetter
 from itertools import groupby
+from operator import itemgetter
 
 rows = [
     {"name": "John", "surname": "Doe", "id": 2},
@@ -23,7 +23,6 @@ orders = [
     {"date": "07/15/2021", "id": 10004},
     {"date": "07/15/2021", "id": 10005},
 ]
-
 
 
 orders.sort(key=itemgetter("date"))

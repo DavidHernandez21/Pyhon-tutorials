@@ -1,4 +1,8 @@
-actions = [{"text": "1", "color": "blue", "sleep": 96.2}, {"sound": "www.daje.com", "format":"ogg"}, {"sleep": 25.3}]
+actions = [
+    {"text": "1", "color": "blue", "sleep": 96.2},
+    {"sound": "www.daje.com", "format": "ogg"},
+    {"sleep": 25.3},
+]
 
 for action in actions:
     match action:

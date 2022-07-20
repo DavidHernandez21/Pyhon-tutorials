@@ -1,12 +1,15 @@
 # from flask import Flask
 # import boto3
-from celery import Celery
 import concurrent.futures
 
+from celery import Celery
 
 
-app = Celery('send_task', broker='amqp://guest:guest@rabbitmq:5672',
-             backend='redis://redis:6379/0')
+app = Celery(
+    "send_task",
+    broker="amqp://guest:guest@rabbitmq:5672",
+    backend="redis://redis:6379/0",
+)
 
 
 def wait_for_task(task_id: str, timeout: int) -> str:
@@ -21,24 +24,21 @@ def wait_for_task(task_id: str, timeout: int) -> str:
         result.forget()
         return "Task timed out"
 
-    
 
 def call_method():
     print("Invoking Method ")
-    r = app.send_task('tasks.add', kwargs={'first_number': 1, 'second_number': 2})
+    r = app.send_task("tasks.add", kwargs={"first_number": 1, "second_number": 2})
     print(r.backend)
     return r.id
-
 
 
 def get_status(task_id: str) -> str:
     status = app.AsyncResult(task_id, app=app)
     print("Invoking Method ")
-    if status.state == 'FAILURE':
+    if status.state == "FAILURE":
         status.forget()
         return f"Task Failed with Exception: {status.info}"
     return f"Status of the Task {status.state}"
-
 
 
 def task_result(task_id: str) -> str:
@@ -46,7 +46,6 @@ def task_result(task_id: str) -> str:
     if result.ready():
         return f"Result of the Task {result.get()}"
     return "Task is still running"
-    
 
 
 def main():
@@ -59,7 +58,6 @@ def main():
     with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
         future = executor.submit(wait_for_task, task_id, 5)
         print(future.result())
-    
 
 
 if __name__ == "__main__":

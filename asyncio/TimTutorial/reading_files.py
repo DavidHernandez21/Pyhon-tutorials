@@ -1,10 +1,12 @@
-import asyncio
-import aiofiles
-from zipfile import ZipFile
-import os
 import json
-from typing import List
+import os
 from time import perf_counter
+from typing import List
+from zipfile import ZipFile
+
+import aiofiles
+
+import asyncio
 
 if not os.path.isdir("intents"):
     with ZipFile("intents.zip", "r") as myzip:
@@ -41,7 +43,9 @@ async def get_files(file_list: List):
         # names.append(fi)
         async with aiofiles.open(fi, mode="r") as aio_file:
 
-            the_dict[fi.split(os.path.sep)[1]] = json.loads(await aio_file.read())["contexts"]
+            the_dict[fi.split(os.path.sep)[1]] = json.loads(await aio_file.read())[
+                "contexts"
+            ]
             # tasks.append(asyncio.create_task(aio_file.read()))
 
             # parsing = await asyncio.gather(*tasks)
@@ -58,10 +62,10 @@ async def main():
 
     return await task1
 
+
 if __name__ == "__main__":
     t0 = perf_counter()
     dicty = asyncio.run(main())
     # dicty = get_files_sync(my_files)
     print(f"function took {perf_counter() - t0:.05f} s")
     print(dicty)
-

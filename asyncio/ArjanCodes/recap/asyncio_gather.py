@@ -1,9 +1,12 @@
-import asyncio
 from random import randint
 from time import perf_counter
-# from typing import Any, Awaitable
 
-from req_http import http_get, http_get_sync
+from req_http import http_get
+from req_http import http_get_sync
+
+import asyncio
+
+# from typing import Any, Awaitable
 
 # The highest Pokemon id
 MAX_POKEMON = 898
@@ -40,4 +43,4 @@ async def main() -> None:
 
 
 if __name__ == "__main__":
-    asyncio.run(main()) 
+    asyncio.run(main())

@@ -1,16 +1,16 @@
 from typing import List
 
-from flask import Flask
-from flask import jsonify
-from flask import request
-from pydantic import ValidationError
-
 from blog.commands import AlreadyExists
 from blog.commands import CreateArticleCommand
 from blog.commands import CreateTableCommand
 from blog.models import NotFound
 from blog.queries import GetArticleByIDQuery
 from blog.queries import ListArticlesQuery
+from flask import Flask
+from flask import jsonify
+from flask import request
+from pydantic import ValidationError
+
 app = Flask(__name__)
 
 
@@ -18,7 +18,7 @@ def display_error(error_list: ValidationError.errors):
     """
     Parse error list and return a Dict with all errors
     """
-    err_dict = {"missing_fields": [error['loc'][0] for error in error_list]}
+    err_dict = {"missing_fields": [error["loc"][0] for error in error_list]}
     return jsonify(err_dict)
 
 
@@ -26,12 +26,14 @@ def display_error(error_list: ValidationError.errors):
 def handle_not_found(error):
     return jsonify({"error": "Article not found"}), 404
 
+
 @app.errorhandler(ValidationError)
 def handle_validation_exception(error):
 
     response = display_error(error.errors())
     response.status_code = 400
     return response
+
 
 @app.route("/create-article", methods=["POST"])
 def create_article():
@@ -42,7 +44,7 @@ def create_article():
         return jsonify(cmd.execute().dict())
     except AlreadyExists:
         return jsonify(error="Article with this title already exists"), 200
-    
+
 
 @app.route("/article/<article_id>/", methods=["GET"])
 def get_article(article_id):
@@ -55,6 +57,7 @@ def list_articles():
     query = ListArticlesQuery()
     records = [record.dict() for record in query.execute()]
     return jsonify(records)
+
 
 @app.route("/create-table/<table_name>", methods=["POST"])
 def create_table(table_name):

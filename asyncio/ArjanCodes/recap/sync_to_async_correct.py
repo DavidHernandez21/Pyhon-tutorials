@@ -1,9 +1,11 @@
-import asyncio
 import time
 
 import requests
 
+import asyncio
+
 # g: int = 10
+
 
 async def counter(until: int = 10) -> None:
     now = time.perf_counter()
@@ -35,4 +37,4 @@ async def main() -> None:
 
 
 if __name__ == "__main__":
-    asyncio.run(main()) 
+    asyncio.run(main())

@@ -1,10 +1,16 @@
-from time import perf_counter, sleep
-from random import randint
 import logging
-from dataclasses import dataclass, field
-from typing import Callable, ClassVar, Dict, Optional
-# from functools import  wraps
 from contextlib import ContextDecorator
+from dataclasses import dataclass
+from dataclasses import field
+from random import randint
+from time import perf_counter
+from time import sleep
+from typing import Callable
+from typing import ClassVar
+from typing import Dict
+from typing import Optional
+
+# from functools import  wraps
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -117,7 +123,7 @@ def main():
     t = TimerDataclass(name="download", logger=logging.debug)
     for tutorial_num in range(2):
         t.start()
-        sleep(randint(1,2))
+        sleep(randint(1, 2))
         t.stop()
         # print(tutorial)
 
@@ -130,17 +136,16 @@ def main2():
 
     with TimerDataclass() as t:
         for num in range(-3, 3):
-            sleep(.5)
+            sleep(0.5)
             print(f"1 / {num} = {1 / num:.3f}")
         print(t.timers)
 
 
 def main3():
-
     @TimerDataclass(logger=logging.debug, name="my_func")
     def my_func():
         for num in range(1, 4):
-            sleep(.5)
+            sleep(0.5)
             print(f"1 / {num} = {1 / num:.3f}")
 
     my_func()

@@ -1,11 +1,10 @@
 import contextlib
 
-from pydantic import BaseModel
-from pydantic import EmailStr
-
 from blog.models import Article
 from blog.models import ArticleManager
 from blog.models import NotFound
+from pydantic import BaseModel
+from pydantic import EmailStr
 
 
 class AlreadyExists(Exception):
@@ -21,16 +20,20 @@ class CreateArticleCommand(BaseModel):
         with contextlib.suppress(NotFound):
             ArticleManager.get_by_title(title=self.title)
             raise AlreadyExists
-        
-        return ArticleManager.save(author=self.author, title=self.title, content=self.content)
+
+        return ArticleManager.save(
+            author=self.author, title=self.title, content=self.content
+        )
+
 
 class CreateTableCommand(BaseModel):
     database_name: str = "database.db"
     table_name: str
 
     def execute(self) -> None:
-        ArticleManager.create_table(database_name=self.database_name, table_name=self.table_name)      
-            
+        ArticleManager.create_table(
+            database_name=self.database_name, table_name=self.table_name
+        )
 
 
 if __name__ == "__main__":
@@ -38,7 +41,7 @@ if __name__ == "__main__":
     #     title="New Article",
     #     author="john@doe.com")
     # print(article.author)
-    
+
     ArticleManager.create_table(database_name="database.db")
     cmd = CreateArticleCommand(
         content="Super awesome article",
@@ -46,5 +49,5 @@ if __name__ == "__main__":
         author="john@doe.com",
     )
     print(cmd.execute())
-    
+
     # Article.get_by_id(article_id="sddf")

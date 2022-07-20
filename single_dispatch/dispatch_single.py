@@ -1,8 +1,9 @@
-from functools import singledispatch
 from decimal import Decimal
-"""
-When there is no registered implementation found, its MRO is used to find a more generic implementation. Hence the original function decorated is registered for the base object type, and is used if no other implementation is found.
-"""
+from functools import singledispatch
+
+
+# When there is no registered implementation found, its MRO is used to find a more generic implementation. Hence the original function decorated is registered for the base object type, and is used if no other implementation is found.
+
 
 @singledispatch
 def calc_num(num):
@@ -19,9 +20,7 @@ def calc_float(num):
     print(f"float: {num}")
 
 
-"""
-The decorator also supports decorator stacking, so we can create an overloaded function to handle multiple types.
-"""
+# The decorator also supports decorator stacking, so we can create an overloaded function to handle multiple types.
 
 
 @calc_num.register(float)

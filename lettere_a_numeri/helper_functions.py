@@ -1,32 +1,52 @@
-from typing import OrderedDict, List
 import re
+from collections import OrderedDict
 from itertools import chain
 from pickle import load
+from typing import List
+
 from yaml import safe_load
 
 
 def unpickle_file(file_path: str):
-    with open(file_path, 'br') as f:
+    with open(file_path, "br") as f:
         return load(f)
 
 
-def _letters_to_numbers(ord_dict: OrderedDict[str, int], findall_list: List, count: int = 1,
-                        to_replace: str = "0", second_replace: bool = False,
-                        wo_replace: bool = False, **args) -> str:
+def _letters_to_numbers(
+    ord_dict: OrderedDict[str, int],
+    findall_list: List,
+    count: int = 1,
+    to_replace: str = "0",
+    second_replace: bool = False,
+    wo_replace: bool = False,
+    **args
+) -> str:
     if wo_replace:
         return "".join(str(ord_dict[f]) for f in findall_list)
 
     if not second_replace:
-        return "".join(str(ord_dict[f]).replace(to_replace, "", count) for f in findall_list)
+        return "".join(
+            str(ord_dict[f]).replace(to_replace, "", count) for f in findall_list
+        )
 
-    assert isinstance(args.get("count2", 100), int), "argument 'count2' must be an integer"
+    assert isinstance(
+        args.get("count2", 100), int
+    ), "argument 'count2' must be an integer"
 
     return "".join(
-        str(ord_dict[f]).replace(to_replace, "", count).replace(args.get("rep2", "1"), "", args.get("count2", 100)) for
-        f in findall_list)
+        str(ord_dict[f])
+        .replace(to_replace, "", count)
+        .replace(args.get("rep2", "1"), "", args.get("count2", 100))
+        for f in findall_list
+    )
 
 
-def letters_to_numbers(pattern: re.Pattern, st: str, ord_dict: OrderedDict[str, int], duecento_novecento: List) -> str:
+def letters_to_numbers(
+    pattern: re.Pattern,
+    st: str,
+    ord_dict: OrderedDict[str, int],
+    duecento_novecento: List,
+) -> str:
     findall = re.findall(pattern, st)
     le = len(findall)
 
@@ -46,7 +66,12 @@ def letters_to_numbers(pattern: re.Pattern, st: str, ord_dict: OrderedDict[str, 
 
             if st.endswith("nta") or st.endswith("nti"):
 
-                return re.sub(r"0", "", _letters_to_numbers(ord_dict, findall, wo_replace=True), count=2)
+                return re.sub(
+                    r"0",
+                    "",
+                    _letters_to_numbers(ord_dict, findall, wo_replace=True),
+                    count=2,
+                )
 
             else:
 
@@ -60,34 +85,83 @@ def letters_to_numbers(pattern: re.Pattern, st: str, ord_dict: OrderedDict[str, 
         else:
             if st.endswith("nta") or st.endswith("nti"):
 
-                return re.sub(r"[01]", "", _letters_to_numbers(ord_dict, findall, wo_replace=True), count=3)
+                return re.sub(
+                    r"[01]",
+                    "",
+                    _letters_to_numbers(ord_dict, findall, wo_replace=True),
+                    count=3,
+                )
 
-            elif not (st.endswith("ici") or st.endswith("ette") or st.endswith("otto") or st.endswith(
-                    "annove") or st.endswith("tuno")):
+            elif not (
+                st.endswith("ici")
+                or st.endswith("ette")
+                or st.endswith("otto")
+                or st.endswith("annove")
+                or st.endswith("tuno")
+            ):
 
-                return _letters_to_numbers(ord_dict, findall, count=1, to_replace="0", second_replace=True, rep2="1",
-                                           count2=100)
+                return _letters_to_numbers(
+                    ord_dict,
+                    findall,
+                    count=1,
+                    to_replace="0",
+                    second_replace=True,
+                    rep2="1",
+                    count2=100,
+                )
 
             elif st.endswith("tuno"):
 
-                return re.sub(r"1", "", _letters_to_numbers(ord_dict, findall, count=100, to_replace="0"), count=1)
+                return re.sub(
+                    r"1",
+                    "",
+                    _letters_to_numbers(ord_dict, findall, count=100, to_replace="0"),
+                    count=1,
+                )
 
             else:
 
-                return re.sub("1", "", _letters_to_numbers(ord_dict, findall, count=2, to_replace="0"), count=1)
+                return re.sub(
+                    "1",
+                    "",
+                    _letters_to_numbers(ord_dict, findall, count=2, to_replace="0"),
+                    count=1,
+                )
 
     if le == 4:
-        return _letters_to_numbers(ord_dict, findall, count=100, to_replace="0", second_replace=True, rep2="1",
-                                   count2=100)
+        return _letters_to_numbers(
+            ord_dict,
+            findall,
+            count=100,
+            to_replace="0",
+            second_replace=True,
+            rep2="1",
+            count2=100,
+        )
 
 
-def split_and_yield(pattern: re.Pattern, st: str, ord_dict: OrderedDict[str, int], duecento_novecento: List):
+def split_and_yield(
+    pattern: re.Pattern,
+    st: str,
+    ord_dict: OrderedDict[str, int],
+    duecento_novecento: List,
+):
     for ww in pattern.findall(st):
-        yield letters_to_numbers(pattern=pattern, st=ww, ord_dict=ord_dict, duecento_novecento=duecento_novecento)
+        yield letters_to_numbers(
+            pattern=pattern,
+            st=ww,
+            ord_dict=ord_dict,
+            duecento_novecento=duecento_novecento,
+        )
 
 
-def separate_numeric_yield(pattern: re.Pattern, st: str, ord_dict: OrderedDict[str, int], duecento_novecento: List,
-                           letter_num_pattern: re.Pattern):
+def separate_numeric_yield(
+    pattern: re.Pattern,
+    st: str,
+    ord_dict: OrderedDict[str, int],
+    duecento_novecento: List,
+    letter_num_pattern: re.Pattern,
+):
     for g in filter(None, chain.from_iterable(letter_num_pattern.findall(st))):
 
         if g.isnumeric():
@@ -95,12 +169,21 @@ def separate_numeric_yield(pattern: re.Pattern, st: str, ord_dict: OrderedDict[s
             yield g
 
         else:
-            for ww in split_and_yield(pattern=pattern, st=g, ord_dict=ord_dict, duecento_novecento=duecento_novecento):
+            for ww in split_and_yield(
+                pattern=pattern,
+                st=g,
+                ord_dict=ord_dict,
+                duecento_novecento=duecento_novecento,
+            ):
                 yield ww
 
 
-def list_tuples_finditer(pattern_attached: re.Pattern, pattern_nta_nti: re.Pattern, pattern_200_900: re.Pattern,
-                         st: str):
+def list_tuples_finditer(
+    pattern_attached: re.Pattern,
+    pattern_nta_nti: re.Pattern,
+    pattern_200_900: re.Pattern,
+    st: str,
+):
     found_first_character = False
 
     v = []
@@ -137,8 +220,13 @@ def list_tuples_finditer(pattern_attached: re.Pattern, pattern_nta_nti: re.Patte
     return v, found_first_character, le
 
 
-def check_full_match(pattern_attached: re.Pattern, pattern_nta_nti: re.Pattern,
-                     pattern_200_900: re.Pattern, pattern: re.Pattern, st: str):
+def check_full_match(
+    pattern_attached: re.Pattern,
+    pattern_nta_nti: re.Pattern,
+    pattern_200_900: re.Pattern,
+    pattern: re.Pattern,
+    st: str,
+):
 
     len_matches = 0
 
@@ -170,46 +258,87 @@ def check_full_match(pattern_attached: re.Pattern, pattern_nta_nti: re.Pattern,
     return 1
 
 
-def num_letters_not_matched(pattern: re.Pattern, st: str, ord_dict: OrderedDict[str, int], duecento_novecento: List,
-                            letter_num_pattern: re.Pattern) -> str:
+def num_letters_not_matched(
+    pattern: re.Pattern,
+    st: str,
+    ord_dict: OrderedDict[str, int],
+    duecento_novecento: List,
+    letter_num_pattern: re.Pattern,
+) -> str:
     if not st.isalpha():
 
-        for g in separate_numeric_yield(pattern=pattern, st=st, ord_dict=ord_dict,
-                                        duecento_novecento=duecento_novecento, letter_num_pattern=letter_num_pattern):
+        for g in separate_numeric_yield(
+            pattern=pattern,
+            st=st,
+            ord_dict=ord_dict,
+            duecento_novecento=duecento_novecento,
+            letter_num_pattern=letter_num_pattern,
+        ):
             yield g
 
     else:
 
-        for ww in split_and_yield(pattern=pattern, st=st, ord_dict=ord_dict, duecento_novecento=duecento_novecento):
+        for ww in split_and_yield(
+            pattern=pattern,
+            st=st,
+            ord_dict=ord_dict,
+            duecento_novecento=duecento_novecento,
+        ):
             yield ww
 
 
 def read_yml(file_path: str):
-    with open(file_path, 'r') as f:
+    with open(file_path, "r") as f:
         return safe_load(f)
 
 
 def _pickled_objects_for_matching(file_path: str):
     config_pattern = read_yml(file_path)
 
-    pickle_pattern_attached = unpickle_file(config_pattern["PATTERNS"]['PATH']["pattern_attached"])
-    pickle_pattern_200_900 = unpickle_file(config_pattern["PATTERNS"]['PATH']["pattern_200_900"])
-    pickle_pattern_nta_nti = unpickle_file(config_pattern["PATTERNS"]['PATH']["pattern_nta_nti"])
-    pickle_main_pattern = unpickle_file(config_pattern["PATTERNS"]['PATH']["main_pattern"])
+    pickle_pattern_attached = unpickle_file(
+        config_pattern["PATTERNS"]["PATH"]["pattern_attached"]
+    )
+    pickle_pattern_200_900 = unpickle_file(
+        config_pattern["PATTERNS"]["PATH"]["pattern_200_900"]
+    )
+    pickle_pattern_nta_nti = unpickle_file(
+        config_pattern["PATTERNS"]["PATH"]["pattern_nta_nti"]
+    )
+    pickle_main_pattern = unpickle_file(
+        config_pattern["PATTERNS"]["PATH"]["main_pattern"]
+    )
 
-    return pickle_pattern_attached, pickle_pattern_200_900, pickle_pattern_nta_nti, pickle_main_pattern
+    return (
+        pickle_pattern_attached,
+        pickle_pattern_200_900,
+        pickle_pattern_nta_nti,
+        pickle_main_pattern,
+    )
 
 
 def _patterns_compiled(file_path: str):
-    pickle_pattern_attached, pickle_pattern_200_900, pickle_pattern_nta_nti, pickle_main_pattern = _pickled_objects_for_matching(file_path)
+    (
+        pickle_pattern_attached,
+        pickle_pattern_200_900,
+        pickle_pattern_nta_nti,
+        pickle_main_pattern,
+    ) = _pickled_objects_for_matching(file_path)
 
     pattern_attached = re.compile(r"|".join(pickle_pattern_attached))
     pattern_200_900 = re.compile(r"|".join(pickle_pattern_200_900))
     pattern_nta_nti = re.compile(r"|".join(pickle_pattern_nta_nti))
-    letter_num_pattern = re.compile(read_yml(file_path)["PATTERNS"]['PATTERN']["letter_num_pattern"])
+    letter_num_pattern = re.compile(
+        read_yml(file_path)["PATTERNS"]["PATTERN"]["letter_num_pattern"]
+    )
     pattern = re.compile(r"|".join(pickle_main_pattern), flags=re.I)
 
-    return pattern_attached, pattern_200_900, pattern_nta_nti, letter_num_pattern, pattern
+    return (
+        pattern_attached,
+        pattern_200_900,
+        pattern_nta_nti,
+        letter_num_pattern,
+        pattern,
+    )
 
 
 def find_pattern_user_text(file_path: str, phrase: str) -> bool:
@@ -223,7 +352,9 @@ def find_pattern_user_text(file_path: str, phrase: str) -> bool:
     """
 
     config_pattern = read_yml(file_path)
-    pickle_main_pattern = unpickle_file(config_pattern["PATTERNS"]['PATH']["main_pattern"])
+    pickle_main_pattern = unpickle_file(
+        config_pattern["PATTERNS"]["PATH"]["main_pattern"]
+    )
     pattern = re.compile(r"|".join(pickle_main_pattern), flags=re.I)
 
     split = phrase.split()
@@ -268,7 +399,13 @@ def converted_numbers_joined(file_path: str, phrase: str, findall: bool = False)
 
     _, duecento_novecento, _, d_ord = _pickled_objects_for_matching(file_path)
 
-    pattern_attached, pattern_200_900, pattern_nta_nti, letter_num_pattern, pattern = _patterns_compiled(file_path)
+    (
+        pattern_attached,
+        pattern_200_900,
+        pattern_nta_nti,
+        letter_num_pattern,
+        pattern,
+    ) = _patterns_compiled(file_path)
 
     lista = []
 
@@ -278,16 +415,21 @@ def converted_numbers_joined(file_path: str, phrase: str, findall: bool = False)
 
         s = not_word_character_pattern.sub("", s)
 
-        if not check_full_match(pattern_attached=pattern_attached,
-                                pattern_nta_nti=pattern_nta_nti,
-                                pattern_200_900=pattern_200_900,
-                                pattern=pattern,
-                                st=s):
+        if not check_full_match(
+            pattern_attached=pattern_attached,
+            pattern_nta_nti=pattern_nta_nti,
+            pattern_200_900=pattern_200_900,
+            pattern=pattern,
+            st=s,
+        ):
             continue
 
-        v, found_first_character, le = list_tuples_finditer(pattern_attached=pattern_attached,
-                                                            pattern_nta_nti=pattern_nta_nti,
-                                                            pattern_200_900=pattern_200_900, st=s)
+        v, found_first_character, le = list_tuples_finditer(
+            pattern_attached=pattern_attached,
+            pattern_nta_nti=pattern_nta_nti,
+            pattern_200_900=pattern_200_900,
+            st=s,
+        )
 
         if v:
 
@@ -296,68 +438,108 @@ def converted_numbers_joined(file_path: str, phrase: str, findall: bool = False)
                 new_s_2 = ""
 
                 if k[2]:
-                    lista.append(letters_to_numbers(pattern=pattern, st=k[1], ord_dict=d_ord,
-                                                    duecento_novecento=duecento_novecento))
+                    lista.append(
+                        letters_to_numbers(
+                            pattern=pattern,
+                            st=k[1],
+                            ord_dict=d_ord,
+                            duecento_novecento=duecento_novecento,
+                        )
+                    )
 
                 if i < le:
-                    new_s_2 = s[k[0][1]: v[i][0][0]]
+                    new_s_2 = s[k[0][1] : v[i][0][0]]
                 else:
-                    new_s_2 = s[k[0][1]:]
+                    new_s_2 = s[k[0][1] :]
 
                 if i == 1:
-                    new_s_2 = s[0: k[0][0]]
+                    new_s_2 = s[0 : k[0][0]]
 
                 #############################################################################################
                 if found_first_character:
 
-                    lista.append(letters_to_numbers(pattern=pattern, st=k[1], ord_dict=d_ord,
-                                                    duecento_novecento=duecento_novecento))
+                    lista.append(
+                        letters_to_numbers(
+                            pattern=pattern,
+                            st=k[1],
+                            ord_dict=d_ord,
+                            duecento_novecento=duecento_novecento,
+                        )
+                    )
 
                     if i < le:
-                        new_s_2 = s[k[0][1]: v[i][0][0]]
+                        new_s_2 = s[k[0][1] : v[i][0][0]]
 
                 ################################################################################################
 
                 if i != 1:
                     if not k[2]:
-                        lista.append(letters_to_numbers(pattern=pattern, st=k[1], ord_dict=d_ord,
-                                                        duecento_novecento=duecento_novecento))
+                        lista.append(
+                            letters_to_numbers(
+                                pattern=pattern,
+                                st=k[1],
+                                ord_dict=d_ord,
+                                duecento_novecento=duecento_novecento,
+                            )
+                        )
 
-                for g in num_letters_not_matched(pattern=pattern, st=new_s_2,
-                                                 ord_dict=d_ord, duecento_novecento=duecento_novecento,
-                                                 letter_num_pattern=letter_num_pattern):
+                for g in num_letters_not_matched(
+                    pattern=pattern,
+                    st=new_s_2,
+                    ord_dict=d_ord,
+                    duecento_novecento=duecento_novecento,
+                    letter_num_pattern=letter_num_pattern,
+                ):
                     lista.append(g)
 
                 if i == 1:
                     if not found_first_character:
-                        lista.append(letters_to_numbers(pattern=pattern, st=k[1], ord_dict=d_ord,
-                                                        duecento_novecento=duecento_novecento))
+                        lista.append(
+                            letters_to_numbers(
+                                pattern=pattern,
+                                st=k[1],
+                                ord_dict=d_ord,
+                                duecento_novecento=duecento_novecento,
+                            )
+                        )
 
                         if i < le:
-                            new_s_2 = s[k[0][1]: v[i][0][0]]
+                            new_s_2 = s[k[0][1] : v[i][0][0]]
                         else:
-                            new_s_2 = s[k[0][1]:]
+                            new_s_2 = s[k[0][1] :]
 
-                        for g in num_letters_not_matched(pattern=pattern, st=new_s_2,
-                                                         ord_dict=d_ord, duecento_novecento=duecento_novecento,
-                                                         letter_num_pattern=letter_num_pattern):
+                        for g in num_letters_not_matched(
+                            pattern=pattern,
+                            st=new_s_2,
+                            ord_dict=d_ord,
+                            duecento_novecento=duecento_novecento,
+                            letter_num_pattern=letter_num_pattern,
+                        ):
                             lista.append(g)
 
                 if i == le:
 
-                    if new_s_2 != s[k[0][1]:]:
-                        new_s_2 = s[k[0][1]:]
-                        for g in num_letters_not_matched(pattern=pattern, st=new_s_2,
-                                                         ord_dict=d_ord, duecento_novecento=duecento_novecento,
-                                                         letter_num_pattern=letter_num_pattern):
+                    if new_s_2 != s[k[0][1] :]:
+                        new_s_2 = s[k[0][1] :]
+                        for g in num_letters_not_matched(
+                            pattern=pattern,
+                            st=new_s_2,
+                            ord_dict=d_ord,
+                            duecento_novecento=duecento_novecento,
+                            letter_num_pattern=letter_num_pattern,
+                        ):
                             lista.append(g)
 
                 found_first_character = False
 
         else:
-            for g in num_letters_not_matched(pattern=pattern, st=s,
-                                             ord_dict=d_ord, duecento_novecento=duecento_novecento,
-                                             letter_num_pattern=letter_num_pattern):
+            for g in num_letters_not_matched(
+                pattern=pattern,
+                st=s,
+                ord_dict=d_ord,
+                duecento_novecento=duecento_novecento,
+                letter_num_pattern=letter_num_pattern,
+            ):
                 lista.append(g)
 
     return "".join(lista)

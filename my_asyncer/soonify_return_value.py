@@ -1,6 +1,7 @@
+from typing import List
+
 import anyio
 import asyncer
-from typing import List
 
 
 async def do_work(name: str) -> str:

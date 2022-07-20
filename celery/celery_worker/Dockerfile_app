@@ -1,6 +1,6 @@
 FROM python:3.10.5-slim
 
-ENV PYTHONUNBUFFERED=1 
+ENV PYTHONUNBUFFERED=1
 
 # layer caching for faster builds
 COPY ./requirements.txt requirements.txt

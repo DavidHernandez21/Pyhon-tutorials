@@ -1,5 +1,7 @@
 import subprocess
+
 from threading import Timer
+
 # from time import monotonic_ns
 
 
@@ -8,7 +10,7 @@ def kill_process(process: subprocess.Popen) -> None:
     return process.kill()
 
 
-cmd = ['ping', '/n', '10', 'www.google.com']
+cmd = ["ping", "/n", "10", "www.google.com"]
 # ping = subprocess.run(cmd, capture_output=True, check=True)
 
 try:

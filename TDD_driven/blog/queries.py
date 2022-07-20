@@ -1,13 +1,11 @@
 from typing import List
 
-from pydantic import BaseModel
-
 from blog.models import Article
 from blog.models import ArticleManager
+from pydantic import BaseModel
 
 
 class ListArticlesQuery:
-
     def execute(self) -> List[Article]:
         return ArticleManager.list()
 

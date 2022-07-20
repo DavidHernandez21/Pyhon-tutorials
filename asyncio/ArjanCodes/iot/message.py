@@ -1,11 +1,13 @@
 from dataclasses import dataclass
-from enum import Enum, auto
+from enum import auto
+from enum import Enum
 
 
 class MessageType(Enum):
     """
     type of message Enum
     """
+
     SWITCH_ON = auto()
     SWITCH_OFF = auto()
     CHANGE_COLOR = auto()
@@ -21,4 +23,4 @@ class Message:
     device_id: str
     msg_type: MessageType
     data: str = ""
-    duration: float = .5
+    duration: float = 0.5

@@ -1,6 +1,6 @@
-import asyncio
-
 import requests
+
+import asyncio
 
 # A few handy JSON types
 JSON = int | str | float | bool | None | dict[str, "JSON"] | list["JSON"]

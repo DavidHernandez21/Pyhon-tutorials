@@ -6,4 +6,3 @@ when the exception occurs you enter in the postmortem debugger
 
 ## pytest
 pytest .\test_postmortem.py --pdb
-

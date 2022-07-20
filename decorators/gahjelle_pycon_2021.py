@@ -1,6 +1,7 @@
 # Exercise 2
 import random
-from functools import wraps, update_wrapper
+from functools import update_wrapper
+from functools import wraps
 
 
 # Functions can be passed in as parameters
@@ -19,6 +20,7 @@ def tnirp(text: str):
 def prefix_factory(prefix: str):
     def prefix_printer(text: str):
         print(f"{prefix}: {text}")
+
     return prefix_printer
 
 
@@ -34,6 +36,7 @@ def reverse_factory(func):
     @wraps(func)
     def reverse_caller(text):
         func(text[::-1])
+
     return reverse_caller
 
 
@@ -49,6 +52,7 @@ def reverse_factory(func):
 @reverse_factory
 def greet(name):
     print(f"Hi {name}!")
+
 
 # greet("David")
 
@@ -82,6 +86,7 @@ def do_twice(func):
         first = func(*args, **kwargs)
         second = func(*args, **kwargs)
         return first, second
+
     return wrapper
 
 
@@ -108,6 +113,7 @@ def retry(func):
                 return func(*args, **kwargs)
             except Exception as e:
                 print(f"Retrying ({e})")
+
     return wrapper
 
 
@@ -140,7 +146,9 @@ def retry(exception):
                     return func(*args, **kwargs)
                 except exception as e:
                     print(f"Retrying ({e})")
+
         return wrapper
+
     return decorator
 
 
@@ -165,7 +173,9 @@ def max_retry_decorator(max_retries):
                 except Exception as e:
                     print(f"Retrying ({e})")
             return func(*args, **kwargs)  # Add final call to raise error
+
         return wrapper
+
     return decorator
 
 
@@ -194,8 +204,10 @@ def max_retries_state(max_retries):
                     wrapper.num_retries += 1
             print(f"num of retries: {only_roll_sixes.num_retries}")
             return func(*args, **kwargs)
+
         wrapper.num_retries = 0
         return wrapper
+
     return decorator
 
 
@@ -232,6 +244,7 @@ def greet(name):
 # print(type(greet))
 # print(type(roll_dice))
 
+
 def max_attempts_retry_class(max_retries: int):
     class Retry:
         def __init__(self, func):
@@ -253,7 +266,6 @@ def max_attempts_retry_class(max_retries: int):
 
 
 class RetryMaxAttempts:
-
     def __init__(self, func, max_retries: int = 2):
         update_wrapper(self, func)
         self.func = func
@@ -272,7 +284,6 @@ class RetryMaxAttempts:
 
 
 class RetryMaxAttemptsWithParameters:
-
     def __init__(self, max_retries: int = 2):
         self.num_retries = 0
         self.max_retries = max_retries

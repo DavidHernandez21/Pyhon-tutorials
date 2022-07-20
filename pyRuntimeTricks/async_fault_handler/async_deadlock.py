@@ -1,6 +1,6 @@
-import asyncio
-
 from async_fault_handler import start_tracing
+
+import asyncio
 
 lock1 = asyncio.Lock()
 lock2 = asyncio.Lock()
@@ -26,7 +26,9 @@ if __name__ == "__main__":
 
     start_tracing(loop, 3, repeat=False)
 
-    loop.run_until_complete(asyncio.gather(
-        f1(),
-        f2(),
-    ))
+    loop.run_until_complete(
+        asyncio.gather(
+            f1(),
+            f2(),
+        )
+    )

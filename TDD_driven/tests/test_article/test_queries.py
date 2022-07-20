@@ -9,12 +9,14 @@ def test_list_articles():
     WHEN the execute method is called
     THEN it should return 2 articles
     """
-    ArticleManager().save(author="jane@doe.com", 
-                        title="New Article",
-                        content="Super extra awesome article")
-    ArticleManager().save(author="jane@doe.com",
-                        title="Another Article",
-                        content="Super awesome article")
+    ArticleManager().save(
+        author="jane@doe.com",
+        title="New Article",
+        content="Super extra awesome article",
+    )
+    ArticleManager().save(
+        author="jane@doe.com", title="Another Article", content="Super awesome article"
+    )
 
     query = ListArticlesQuery()
 
@@ -27,12 +29,12 @@ def test_get_article_by_id():
     WHEN the execute method is called on GetArticleByIDQuery with an ID
     THEN it should return the article with the same ID
     """
-    article = ArticleManager().save(author="jane@doe.com",
-                                    title="New Article",
-                                    content="Super extra awesome article")
-
-    query = GetArticleByIDQuery(
-        id=article.id
+    article = ArticleManager().save(
+        author="jane@doe.com",
+        title="New Article",
+        content="Super extra awesome article",
     )
+
+    query = GetArticleByIDQuery(id=article.id)
 
     assert query.execute().id == article.id

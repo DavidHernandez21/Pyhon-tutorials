@@ -1,11 +1,12 @@
-import asyncio
 import sys
-import threading
 from time import sleep
+
+import asyncio
+import threading
 
 
 def _stacktraces(loop, interval, repeat, file=sys.stderr):
-    
+
     i = 0
     while True:
         sleep(interval)
@@ -25,4 +26,12 @@ def start_tracing(loop, interval, repeat=True, file=sys.stderr):
     :param repeat: if True, traceback will be repeated with the interval
     :param file: file for printing the output
     """
-    threading.Thread(target=_stacktraces, args=(loop, interval, repeat, file,)).start()
+    threading.Thread(
+        target=_stacktraces,
+        args=(
+            loop,
+            interval,
+            repeat,
+            file,
+        ),
+    ).start()

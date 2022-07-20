@@ -1,6 +1,6 @@
-from itertools import accumulate
 import functools
 import operator
+from itertools import accumulate
 
 data = (3, 4, 1, 3, 5, 6, 9, 0, 1)
 

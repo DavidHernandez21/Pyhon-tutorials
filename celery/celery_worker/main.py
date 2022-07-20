@@ -1,5 +1,7 @@
 from tasks import add
+
 # import time
+
 
 def main():
     result = add.delay(2, 2)
@@ -30,6 +32,7 @@ def main():
     # print(r.worker)
     # print(r.id)
     # print(r.get())
+
 
 if __name__ == "__main__":
     main()

@@ -22,7 +22,7 @@ services:
         #     - rabbitmq_log:/var/log/rabbitmq
         networks:
           - celery-network
-    
+
     # fastapi_app:
     #     build:
     #         context: ./fastapi_app
@@ -35,7 +35,7 @@ services:
     #       - celery-network
     #     depends_on:
     #         - celery_worker
-    
+
     celery_worker:
         build:
             context: ./celery_worker
@@ -52,7 +52,7 @@ services:
         tty: true
         stdin_open: true
         command : bash
-    
+
     celery_app:
         build:
             context: ./celery_worker
@@ -70,7 +70,7 @@ services:
         tty: true
         stdin_open: true
         command : bash
-    
+
     celery_send_task:
         build:
             context: ./send_task
@@ -90,5 +90,3 @@ services:
 networks:
   celery-network:
     driver: bridge
-
-          

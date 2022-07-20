@@ -3,7 +3,7 @@ from time import sleep
 
 def slow(num: int) -> int:
 
-    sleep(.5)
+    sleep(0.5)
     return num
 
 

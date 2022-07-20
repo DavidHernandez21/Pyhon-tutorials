@@ -6,6 +6,3 @@ PATTERNS:
     pattern_nta_nti: "data/numeri_nta_nti.zip"
   PATTERN:
     letter_num_pattern: "([0-9]*)([a-zA-Z]*)"
-
-
-

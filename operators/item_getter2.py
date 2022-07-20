@@ -1,6 +1,11 @@
 from operator import itemgetter
 
-products = {"Headphones": 55.90, "USB drive": 12.20, "Ethernet Cable": 8.12, "Smartwatch": 125.80}
+products = {
+    "Headphones": 55.90,
+    "USB drive": 12.20,
+    "Ethernet Cable": 8.12,
+    "Smartwatch": 125.80,
+}
 
 sort_by_price = sorted(products.items(), key=itemgetter(1))
 print(sort_by_price)

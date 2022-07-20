@@ -2,11 +2,11 @@
 Basic example showing how to create objects from data using a dynamic factory with
 register/unregister methods.
 """
-
 import json
 from dataclasses import dataclass
 
-from game import factory, loader
+from game import factory
+from game import loader
 
 
 @dataclass

@@ -1,5 +1,7 @@
-from abc import ABC, abstractmethod
-from dataclasses import dataclass, field
+from abc import ABC
+from abc import abstractmethod
+from dataclasses import dataclass
+from dataclasses import field
 
 from stream import data
 

@@ -1,6 +1,6 @@
 """Factory for creating a game character."""
-
-from typing import Any, Callable
+from typing import Any
+from typing import Callable
 
 from game.character import GameCharacter
 

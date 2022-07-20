@@ -1,9 +1,11 @@
-from fastapi import FastAPI
-from dotenv import load_dotenv
-from redis_om import get_redis_connection, HashModel
-from fastapi.middleware.cors import CORSMiddleware
-from os import getenv
 import pathlib
+from os import getenv
+
+from dotenv import load_dotenv
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from redis_om import get_redis_connection
+from redis_om import HashModel
 
 load_dotenv(pathlib.Path(pathlib.Path(__file__).parent.parent.absolute(), ".env"))
 
@@ -24,6 +26,7 @@ redis = get_redis_connection(
     decode_responses=True,
 )
 
+
 class Product(HashModel):
     name: str
     price: float
@@ -31,6 +34,7 @@ class Product(HashModel):
 
     class Meta:
         database = redis
+
 
 def get_product(product_pk: str):
     product = Product.get(product_pk)
@@ -42,6 +46,7 @@ def get_product(product_pk: str):
         "quantity": product.quantity,
     }
 
+
 @app.get("/products")
 async def get_products():
     # print(dir(Product))
@@ -52,12 +57,12 @@ async def get_products():
 async def create_product(product: Product):
     return product.save()
 
+
 @app.delete("/products/{product_pk}")
 async def delete_product(product_pk: str):
     return Product.delete(product_pk)
 
+
 @app.get("/products/{product_pk}")
 async def get_product_by_id(product_pk: str):
     return Product.get(product_pk)
-    
-

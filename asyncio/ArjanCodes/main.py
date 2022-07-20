@@ -1,9 +1,14 @@
-import asyncio
-from typing import Any, Awaitable
+from collections.abc import Awaitable
+from typing import Any
 
-from iot.devices import HueLightDevice, SmartSpeakerDevice, SmartToiletDevice
-from iot.message import Message, MessageType
+from iot.devices import HueLightDevice
+from iot.devices import SmartSpeakerDevice
+from iot.devices import SmartToiletDevice
+from iot.message import Message
+from iot.message import MessageType
 from iot.service import IOTService
+
+import asyncio
 
 
 async def run_sequence(*functions: Awaitable[Any]) -> None:
@@ -31,9 +36,7 @@ async def main() -> None:
     )
 
     # create a few programs
-    wake_up_program_parallel = (
-        Message(hue_light_id, MessageType.SWITCH_ON),
-    )
+    wake_up_program_parallel = (Message(hue_light_id, MessageType.SWITCH_ON),)
 
     wake_up_program_sequencial = (
         Message(speaker_id, MessageType.SWITCH_ON),
@@ -61,15 +64,26 @@ async def main() -> None:
     #     ),
     # )
 
-    functions_parallel_wakeup = (service.send_msg(msg) for msg in wake_up_program_parallel)
-    functions_sequencial_wakeup = (service.send_msg(msg) for msg in wake_up_program_sequencial)
-    await service.run_program_parseq(functions_parallel=functions_parallel_wakeup,
-                                     functions_sequence=functions_sequencial_wakeup)
+    functions_parallel_wakeup = (
+        service.send_msg(msg) for msg in wake_up_program_parallel
+    )
+    functions_sequencial_wakeup = (
+        service.send_msg(msg) for msg in wake_up_program_sequencial
+    )
+    await service.run_program_parseq(
+        functions_parallel=functions_parallel_wakeup,
+        functions_sequence=functions_sequencial_wakeup,
+    )
 
     functions_parallel_sleep = (service.send_msg(msg) for msg in sleep_program_parallel)
-    functions_sequencial_sleep = (service.send_msg(msg) for msg in sleep_program_sequencial)
-    await service.run_program_parseq(functions_parallel=functions_parallel_sleep,
-                                     functions_sequence=functions_sequencial_sleep)
+    functions_sequencial_sleep = (
+        service.send_msg(msg) for msg in sleep_program_sequencial
+    )
+    await service.run_program_parseq(
+        functions_parallel=functions_parallel_sleep,
+        functions_sequence=functions_sequencial_sleep,
+    )
+
 
 if __name__ == "__main__":
     asyncio.run(main())

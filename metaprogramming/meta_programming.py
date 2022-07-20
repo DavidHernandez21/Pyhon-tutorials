@@ -22,8 +22,8 @@ def debugmethods(cls):
 
 
 class DebugMeta(type):
-    """meta class which feed created class object 
-    to debugmethod to get debug functionality 
+    """meta class which feed created class object
+    to debugmethod to get debug functionality
     enabled objects"""
 
     def __new__(mcs, clsname, bases, clsdict):
@@ -41,7 +41,7 @@ class Base(metaclass=DebugMeta):
 # inheriting Base
 class Calc(Base):
     def add(self, x, y):
-        return x+y
+        return x + y
 
 
 def main():
@@ -54,8 +54,3 @@ def main():
 if __name__ == "__main__":
 
     main()
-
-
-
-
-

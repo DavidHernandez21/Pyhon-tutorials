@@ -1,8 +1,10 @@
 import yaml
-# import re
+
 from lettere_a_numeri.helper_functions import converted_numbers_joined
 
-with open("config.yaml", 'r') as f:
+# import re
+
+with open("config.yaml", "r") as f:
     config_pattern = yaml.safe_load(f)
 
 # pickle_pattern_attached, pickle_pattern_200_900, pickle_pattern_nta_nti, pickle_main_pattern = _pickled_objects_for_matching("config.yaml")
@@ -12,9 +14,13 @@ with open("config.yaml", 'r') as f:
 
 
 def main():
-    phrase = "il mio codice conto è seicentonovantadue5novantaquattro7ottantadueottantadue9"
+    phrase = (
+        "il mio codice conto è seicentonovantadue5novantaquattro7ottantadueottantadue9"
+    )
     # phrase = "uno"
-    conv = converted_numbers_joined(file_path="config.yaml", phrase=phrase, findall=True)
+    conv = converted_numbers_joined(
+        file_path="config.yaml", phrase=phrase, findall=True
+    )
 
     print(conv)
     print(len(conv))
@@ -22,4 +28,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

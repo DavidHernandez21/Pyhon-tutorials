@@ -14,25 +14,28 @@ class NotFound(Exception):
     pass
 
 
-def conn_decorator_sqlite3(row_factory:Any):
+def conn_decorator_sqlite3(row_factory: Any):
     def decorator(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
             try:
                 with sqlite3.connect(os.getenv("DATABASE_NAME", "database.db")) as conn:
                     conn.row_factory = row_factory
-                    kwargs['conn'] = conn
+                    kwargs["conn"] = conn
 
                     return func(*args, **kwargs)
-                    
+
             except sqlite3.OperationalError as e:
                 raise e
             except NotFound as e:
                 raise e
             finally:
                 conn.close()
+
         return wrapper
+
     return decorator
+
 
 # class SQLLiteConnManager():
 #     conn=None
@@ -41,13 +44,13 @@ def conn_decorator_sqlite3(row_factory:Any):
 #         if not self.conn:
 #             self.conn = sqlite3.connect(path)
 
-    
+
 #     def set_row_factory(path: str, factory: sqlite3.Row) -> None:
 #         if not self.conn:
 #             self.get_conn(path)
-        
+
 #         self.conn.row_factory = factory
-        
+
 
 #     def close_conn(self) -> None:
 #         self.conn.close()
@@ -56,18 +59,18 @@ def conn_decorator_sqlite3(row_factory:Any):
 
 # conn_manager = SQLLiteConnManager()
 
+
 class Article(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     author: EmailStr
     title: str
     content: str
-    
+
 
 class ArticleManager:
-
     @staticmethod
     @conn_decorator_sqlite3(row_factory=sqlite3.Row)
-    def get_by_id(*,article_id: str, conn: sqlite3.Connection) -> "Article":
+    def get_by_id(*, article_id: str, conn: sqlite3.Connection) -> "Article":
 
         cur = conn.cursor()
         cur.execute("SELECT * FROM articles WHERE id=?", (article_id,))
@@ -78,12 +81,12 @@ class ArticleManager:
             raise NotFound
 
         id, author, title, content = record
-        return Article(id=id,author=author, title=title, content=content)
+        return Article(id=id, author=author, title=title, content=content)
 
     @staticmethod
     @conn_decorator_sqlite3(row_factory=sqlite3.Row)
-    def get_by_title(*,title: str, conn: sqlite3.Connection) -> "Article":
-        
+    def get_by_title(*, title: str, conn: sqlite3.Connection) -> "Article":
+
         cur = conn.cursor()
         cur.execute("SELECT * FROM articles WHERE title = ?", (title,))
 
@@ -91,31 +94,31 @@ class ArticleManager:
 
         if record is None:
             raise NotFound
-        
+
         id, author, title, content = record
         return Article(id=id, author=author, title=title, content=content)
-        
-    
+
     @staticmethod
     @conn_decorator_sqlite3(row_factory=sqlite3.Row)
-    def list(*,conn: sqlite3.Connection) -> List["Article"]:
+    def list(*, conn: sqlite3.Connection) -> List["Article"]:
 
         cur = conn.cursor()
         cur.execute("SELECT * FROM articles")
 
-        return [Article(id=record[0],author=record[1], title=record[2], content=record[3])
-                for record in cur.fetchall()]
-        
+        return [
+            Article(id=record[0], author=record[1], title=record[2], content=record[3])
+            for record in cur.fetchall()
+        ]
 
     @staticmethod
-    def save(*,author: str, title: str, content: str) -> Article:
+    def save(*, author: str, title: str, content: str) -> Article:
         try:
             with sqlite3.connect(os.getenv("DATABASE_NAME", "database.db")) as conn:
                 article = Article(author=author, title=title, content=content)
                 cur = conn.cursor()
                 cur.execute(
                     "INSERT INTO articles (id,author,title,content) VALUES(?, ?, ?, ?)",
-                    (article.id, article.author, article.title, article.content)
+                    (article.id, article.author, article.title, article.content),
                 )
 
                 return article
@@ -124,8 +127,7 @@ class ArticleManager:
             raise e
 
         finally:
-            conn.close()        
-        
+            conn.close()
 
     @staticmethod
     def create_table(database_name: str, table_name: str = "articles") -> None:

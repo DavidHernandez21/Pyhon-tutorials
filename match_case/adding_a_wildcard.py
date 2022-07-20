@@ -1,5 +1,4 @@
 # command = "daje roma forza loba"
-
 # match command.split():
 #     case "daje":
 #         print("daje")
@@ -11,9 +10,11 @@
 #         print("daje", *args)
 
 
-
 command = "go east"
-valid_actions = ("go", "head", "move", "run","walk")
+valid_actions = ("go", "head", "move", "run", "walk")
 match command.split():
-    case [action, ("north" | "south" | "east" | "west") as direction] if action in valid_actions:
+    case [
+        action,
+        ("north" | "south" | "east" | "west") as direction,
+    ] if action in valid_actions:
         print(action, direction)

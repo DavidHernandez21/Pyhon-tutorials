@@ -1,7 +1,8 @@
 import time
 
 import anyio
-from asyncer import asyncify, syncify
+from asyncer import asyncify
+from asyncer import syncify
 
 
 async def do_async_work(name: str):

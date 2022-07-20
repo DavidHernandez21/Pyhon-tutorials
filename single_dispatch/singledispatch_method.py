@@ -1,5 +1,6 @@
-from functools import singledispatchmethod
 from dataclasses import dataclass
+from functools import singledispatchmethod
+
 
 @dataclass
 class Negator:

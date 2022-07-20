@@ -1,7 +1,7 @@
 import atexit
 
 
-def square(x:float) -> float:
+def square(x: float) -> float:
     return x * x
 
 
@@ -12,9 +12,9 @@ def run_last_function(func, x: float):
 
 
 def main():
-    x= 3
+    x = 3
     atexit.register(run_last_function, func=square, x=x)
-    x=2
+    x = 2
     print(square(x=x))
 
 
