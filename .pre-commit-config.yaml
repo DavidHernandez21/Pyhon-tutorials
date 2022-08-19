@@ -29,3 +29,8 @@ repos:
     hooks:
     -   id: add-trailing-comma
         args: [--py36-plus]
+-   repo: https://github.com/zricethezav/gitleaks
+    rev: v8.11.0
+    hooks:
+    -   id: gitleaks
+        args: [--staged]
