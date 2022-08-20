@@ -9,8 +9,8 @@ from celery import Celery
 
 # app = Celery('tasks', broker='amqp://guest:guest@rabbitmq:5672',
 #              backend='redis://redis:6379/0')
-app = Celery("tasks")
-app.config_from_object("celeryconfig")
+app = Celery('tasks')
+app.config_from_object('celeryconfig')
 
 
 @app.task

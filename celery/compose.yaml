@@ -41,6 +41,7 @@ services:
             context: ./celery_worker
             dockerfile: Dockerfile
         container_name: "celery_worker"
+        command: celery -A tasks worker -l INFO
         volumes:
           - ./celery_worker/tasks.py:/celery_worker/tasks.py
           - ./celery_worker/celeryconfig.py:/celery_worker/celeryconfig.py
@@ -49,9 +50,9 @@ services:
         depends_on:
           - rabbitmq
           - redis
-        tty: true
-        stdin_open: true
-        command : bash
+        # tty: true
+        user: app
+        # stdin_open: true
 
     celery_app:
         build:
@@ -68,6 +69,7 @@ services:
           - rabbitmq
           - redis
         tty: true
+        user: app
         stdin_open: true
         command : bash
 
@@ -84,6 +86,7 @@ services:
           - rabbitmq
           - redis
         tty: true
+        user: app
         stdin_open: true
         command : bash
 

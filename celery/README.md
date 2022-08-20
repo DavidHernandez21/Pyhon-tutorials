@@ -4,11 +4,14 @@ celery [documentation](https://docs.celeryq.dev/en/stable/index.html)
 
 docker compose up -d
 
+## This is not needed anymore because is now done within compose.yaml
 docker exec -it celery_worker bash
- - celery -A tasks worker -l INFO
+  - celery -A tasks worker -l INFO
 
- docker exec -it celery_app bash
-  - python main.py
+
+## launch the celery app and run the python module
+docker exec -it celery_app bash
+  - python -m main
 
 docker exec -it celery_send_task bash
- - python send_task.py
+  - python -m send_task
