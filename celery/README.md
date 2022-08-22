@@ -20,3 +20,7 @@ docker exec -it celery_send_task bash
 [flower docs](https://flower.readthedocs.io/en/latest/prometheus-integration.html#celery-flower-prometheus-grafana-integration-guide)
 - add prometheus source
  + URL http//prometheus:9090
+
+## flower
+great resource thats explain gotchas about tracking more than one celery worker with flower [link](https://www.distributedpython.com/2018/10/13/flower-docker/#:~:text=Celery%20is%20a%20marshland%20plant%20in%20the%20family,in%20Computer%20Science%3A%20cache%20invalidation%20and%20naming%20things.)
+- tldr: using the `--hostname` worker option
