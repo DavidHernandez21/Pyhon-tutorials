@@ -36,12 +36,51 @@ services:
     #     depends_on:
     #         - celery_worker
 
-    celery_worker:
-        build:
-            context: ./celery_worker
-            dockerfile: Dockerfile
-        container_name: "celery_worker"
-        command: celery -A tasks worker -l INFO
+    celery_worker_1:
+        # build:
+        #     context: ./celery_worker
+        #     dockerfile: Dockerfile
+        image: celery_celery_worker:latest
+        container_name: "celery_worker_1"
+        command: ["celery", "-A", "tasks", "worker", "--hostname", "worker_1@%h",  "-l", "INFO"]
+        volumes:
+          - ./celery_worker/tasks.py:/celery_worker/tasks.py
+          - ./celery_worker/celeryconfig.py:/celery_worker/celeryconfig.py
+        networks:
+          - celery-network
+        depends_on:
+          - rabbitmq
+          - redis
+        # tty: true
+        user: app
+        # stdin_open: true
+
+    celery_worker_2:
+        # build:
+        #     context: ./celery_worker
+        #     dockerfile: Dockerfile
+        image: celery_celery_worker:latest
+        container_name: "celery_worker_2"
+        command: ["celery", "-A", "tasks", "worker", "--hostname", "worker_2@%h",  "-l", "INFO"]
+        volumes:
+          - ./celery_worker/tasks.py:/celery_worker/tasks.py
+          - ./celery_worker/celeryconfig.py:/celery_worker/celeryconfig.py
+        networks:
+          - celery-network
+        depends_on:
+          - rabbitmq
+          - redis
+        # tty: true
+        user: app
+        # stdin_open: true
+
+    celery_worker_3:
+        # build:
+        #     context: ./celery_worker
+        #     dockerfile: Dockerfile
+        image: celery_celery_worker:latest
+        container_name: "celery_worker_3"
+        command: ["celery", "-A", "tasks", "worker", "--hostname", "worker_3@%h",  "-l", "INFO"]
         volumes:
           - ./celery_worker/tasks.py:/celery_worker/tasks.py
           - ./celery_worker/celeryconfig.py:/celery_worker/celeryconfig.py
@@ -89,6 +128,62 @@ services:
         user: app
         stdin_open: true
         command : bash
+
+    flower:
+      image: mher/flower
+      container_name: flower
+      command: ["celery", "flower"]
+      ports:
+        - 5555:5555
+      # volumes:
+      #   - ~/celery_worker/tasks.py:/tasks.py
+      #   - ~/celery/flower_conf/flowerconfig.py:/flowerconfig.py
+      environment:
+        - FLOWER_OAUTH2_SECRET=${FLOWER_OAUTH2_SECRET:?err}
+        - FLOWER_OAUTH2_KEY=${FLOWER_OAUTH2_KEY:?err}
+        - FLOWER_OAUTH2_REDIRECT_URI=${FLOWER_OAUTH2_REDIRECT_URI:?err}
+        - CELERY_BROKER_URL=${CELERY_BROKER_URL:?err}
+        - CELERY_RESULT_BACKEND=${CELERY_RESULT_BACKEND:?err}
+        - FLOWER_AUTH_PROVIDER=${FLOWER_AUTH_PROVIDER:?err}
+      networks:
+        - celery-network
+      depends_on:
+        - rabbitmq
+        - redis
+        - celery_worker_1
+        - celery_worker_2
+
+    prometheus:
+      image: prom/prometheus
+      container_name: "prometheus"
+      volumes:
+        - ./prometheus/:/etc/prometheus/
+        - prometheus_data:/prometheus
+      command:
+        - '--config.file=/etc/prometheus/prometheus.yaml'
+        - '--storage.tsdb.path=/prometheus'
+        - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+        - '--web.console.templates=/usr/share/prometheus/consoles'
+      ports:
+        - 9090:9090
+      restart: unless-stopped
+      networks:
+          - celery-network
+
+    grafana:
+      image: grafana/grafana:latest
+      container_name: grafana
+      ports:
+        - "3000:3000"
+      volumes:
+        - grafana-storage:/var/lib/grafana
+      networks:
+        - celery-network
+
+
+volumes:
+  prometheus_data:
+  grafana-storage:
 
 networks:
   celery-network:
