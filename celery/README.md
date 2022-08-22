@@ -15,3 +15,8 @@ docker exec -it celery_app bash
 
 docker exec -it celery_send_task bash
   - python -m send_task
+
+## Grafana
+[flower docs](https://flower.readthedocs.io/en/latest/prometheus-integration.html#celery-flower-prometheus-grafana-integration-guide)
+- add prometheus source
+ + URL http//prometheus:9090
