@@ -132,19 +132,20 @@ services:
     flower:
       image: mher/flower
       container_name: flower
-      command: ["celery", "flower"]
+      command: ["celery", "-A", "tasks", "flower"]
       ports:
         - 5555:5555
-      # volumes:
-      #   - ~/celery_worker/tasks.py:/tasks.py
-      #   - ~/celery/flower_conf/flowerconfig.py:/flowerconfig.py
+      volumes:
+        - ~/celery/celery_worker/tasks.py:/data/tasks.py
+        - ~/celery/celery_worker/celeryconfig.py:/data/celeryconfig.py
+        - ~/celery/flower_conf/flowerconfig.py:/data/flowerconfig.py
       environment:
         - FLOWER_OAUTH2_SECRET=${FLOWER_OAUTH2_SECRET:?err}
         - FLOWER_OAUTH2_KEY=${FLOWER_OAUTH2_KEY:?err}
         - FLOWER_OAUTH2_REDIRECT_URI=${FLOWER_OAUTH2_REDIRECT_URI:?err}
-        - CELERY_BROKER_URL=${CELERY_BROKER_URL:?err}
-        - CELERY_RESULT_BACKEND=${CELERY_RESULT_BACKEND:?err}
-        - FLOWER_AUTH_PROVIDER=${FLOWER_AUTH_PROVIDER:?err}
+        # - CELERY_BROKER_URL=${CELERY_BROKER_URL:?err}
+        # - CELERY_RESULT_BACKEND=${CELERY_RESULT_BACKEND:?err}
+        # - FLOWER_AUTH_PROVIDER=${FLOWER_AUTH_PROVIDER:?err}
       networks:
         - celery-network
       depends_on:
