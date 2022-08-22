@@ -9,6 +9,8 @@ RUN  apt update -y && apt upgrade -y && apt autoremove -y && pip install --no-ca
 
 #COPY app.py /app.py
 COPY ./tasks.py /celery_worker/tasks.py
+# remove celeryconfig for security reasons (explicit broker url)
+# COPY ./celeryconfig.py /celery_worker/celeryconfig.py
 WORKDIR /celery_worker
 
 RUN addgroup --gid 1001 --system app && \
