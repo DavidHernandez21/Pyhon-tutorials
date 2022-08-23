@@ -4,7 +4,11 @@ ENV PYTHONUNBUFFERED=1
 
 # layer caching for faster builds
 COPY ./requirements.txt requirements.txt
-RUN  apt update -y && apt upgrade -y && apt autoremove -y && pip install --no-cache-dir -U pip && pip install --no-cache-dir -r requirements.txt
+RUN apt update -y && \
+    apt upgrade -y && \
+    apt autoremove -y && \
+    rm -rf /var/lib/apt/lists && \
+    pip install --no-cache-dir -U pip && pip install --no-cache-dir -r requirements.txt
 
 #COPY app.py /app.py
 COPY ./tasks.py /celery_worker/tasks.py

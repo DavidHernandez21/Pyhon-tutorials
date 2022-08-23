@@ -40,7 +40,7 @@ services:
         # build:
         #     context: ./celery_worker
         #     dockerfile: Dockerfile
-        image: celery_celery_worker:latest
+        image: celery_celery_worker:0.1.0
         container_name: "celery_worker_1"
         command: ["celery", "-A", "tasks", "worker", "--hostname", "worker_1@%h",  "-l", "INFO"]
         volumes:
@@ -59,7 +59,7 @@ services:
         # build:
         #     context: ./celery_worker
         #     dockerfile: Dockerfile
-        image: celery_celery_worker:latest
+        image: celery_celery_worker:0.1.0
         container_name: "celery_worker_2"
         command: ["celery", "-A", "tasks", "worker", "--hostname", "worker_2@%h",  "-l", "INFO"]
         volumes:
@@ -78,7 +78,7 @@ services:
         # build:
         #     context: ./celery_worker
         #     dockerfile: Dockerfile
-        image: celery_celery_worker:latest
+        image: celery_celery_worker:0.1.0
         container_name: "celery_worker_3"
         command: ["celery", "-A", "tasks", "worker", "--hostname", "worker_3@%h",  "-l", "INFO"]
         volumes:
@@ -94,9 +94,10 @@ services:
         # stdin_open: true
 
     celery_app:
-        build:
-            context: ./celery_worker
-            dockerfile: Dockerfile_app
+        # build:
+        #     context: ./celery_worker
+        #     dockerfile: Dockerfile_app
+        image: celery_celery_app:0.1.0
         container_name: "celery_app"
         volumes:
           - ./celery_worker/tasks.py:/celery_worker/tasks.py
@@ -113,9 +114,10 @@ services:
         command : bash
 
     celery_send_task:
-        build:
-            context: ./send_task
-            dockerfile: Dockerfile
+        # build:
+        #     context: ./send_task
+        #     dockerfile: Dockerfile
+        image: celery_celery_send_task:0.1.0
         container_name: "celery_send_task"
         volumes:
           - ./send_task/send_task.py:/celery_worker/send_task.py
