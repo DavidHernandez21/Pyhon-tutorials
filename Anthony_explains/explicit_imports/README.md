@@ -1,7 +1,7 @@
 [video](https://www.youtube.com/watch?v=uwtupH7LJco)
 
 directory tree
-![alt_text](https://github.com/DavidHernandez21/Pyhon-tutorials/files/9791999/img.txt)
+![alt_text](https://user-images.githubusercontent.com/55497518/195986509-36b60b64-c897-4437-b4a0-dbfc6bfc7c26.png)
 
 using python3 a/b/c/bar.py
 
