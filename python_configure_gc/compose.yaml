@@ -1,0 +1,23 @@
+services:
+  python_configure_gc:
+    # build:
+    #     context: ./celery_worker
+    #     dockerfile: Dockerfile
+    image: python_configure_gc:0.1.0
+    container_name: "configure_gc"
+    command: ["/bin/bash"]
+    volumes:
+      - $PWD/app:/app
+    networks:
+      - configure_gc
+    # depends_on:
+    #   - rabbitmq
+    #   - redis
+    tty: true
+    user: test
+    stdin_open: true
+    working_dir: /app
+
+networks:
+  configure_gc:
+    driver: bridge
