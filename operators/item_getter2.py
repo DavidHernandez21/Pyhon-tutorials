@@ -1,10 +1,10 @@
 from operator import itemgetter
 
 products = {
-    "Headphones": 55.90,
-    "USB drive": 12.20,
-    "Ethernet Cable": 8.12,
-    "Smartwatch": 125.80,
+    'Headphones': 55.90,
+    'USB drive': 12.20,
+    'Ethernet Cable': 8.12,
+    'Smartwatch': 125.80,
 }
 
 sort_by_price = sorted(products.items(), key=itemgetter(1))
@@ -19,10 +19,10 @@ print(index, price)
 
 # Sort list of tuples based on their indices
 names = [
-    ("John", "Doe"),
-    ("Andy", "Jones"),
-    ("Joseph", "Smith"),
-    ("Oliver", "Smith"),
+    ('John', 'Doe'),
+    ('Andy', 'Jones'),
+    ('Joseph', 'Smith'),
+    ('Oliver', 'Smith'),
 ]
 
 print(sorted(names, key=itemgetter(1, 0)))

@@ -6,15 +6,14 @@ from game import factory
 
 @dataclass
 class Bard:
-
     name: str
-    instrument: str = "flute"
+    instrument: str = 'flute'
 
     def make_a_noise(self) -> None:
         print(
-            f"I am {self.name} and I play the {self.instrument}. Toss a coin to your Witcher!"
+            f'I am {self.name} and I play the {self.instrument}. Toss a coin to your Witcher!',
         )
 
 
 def register() -> None:
-    factory.register("bard", Bard)
+    factory.register('bard', Bard)

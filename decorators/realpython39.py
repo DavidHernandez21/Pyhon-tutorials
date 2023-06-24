@@ -22,8 +22,7 @@ def whisper(func):
 
 
 def main():
-
-    DECORATORS = {"normal": normal, "shout": shout, "whisper": whisper}
+    DECORATORS = {'normal': normal, 'shout': shout, 'whisper': whisper}
 
     voice = input(f"Choose your voice ({', '.join(DECORATORS)}): ")
 
@@ -40,6 +39,5 @@ def main():
     print(get_story())
 
 
-if __name__ == "__main__":
-
+if __name__ == '__main__':
     main()

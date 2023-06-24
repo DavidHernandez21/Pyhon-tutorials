@@ -6,7 +6,7 @@ def square(x: float) -> float:
 
 
 def run_last_function(func, x: float):
-    print("daje")
+    print('daje')
 
     print(func(x))
 
@@ -18,6 +18,5 @@ def main():
     print(square(x=x))
 
 
-if __name__ == "__main__":
-
+if __name__ == '__main__':
     main()

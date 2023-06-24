@@ -5,7 +5,7 @@ from reader import feed
 
 # feed.get_titles()
 
-pattern = parse.compile("The Real Python Podcast – Episode #{num:d}: {name}")
+pattern = parse.compile('The Real Python Podcast – Episode #{num:d}: {name}')
 
 # print(pattern.parse(
 #     "The Real Python Podcast – Episode #63: "
@@ -13,7 +13,7 @@ pattern = parse.compile("The Real Python Podcast – Episode #{num:d}: {name}")
 # ))
 
 podcasts = [
-    podcast["name"] for title in feed.get_titles() if (podcast := pattern.parse(title))
+    podcast['name'] for title in feed.get_titles() if (podcast := pattern.parse(title))
 ]
 
 # print(podcasts)
@@ -21,5 +21,5 @@ podcasts = [
 print(
     statistics.mean(
         title_length for title in podcasts if (title_length := len(title)) > 50
-    )
+    ),
 )

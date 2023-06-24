@@ -13,8 +13,8 @@ tree = [
 ]  # [Root, SUB_TREE_1, SUB_TREE_2, ..., SUB_TREE_n]
 print(list(more_itertools.collapse(tree)))
 
-iterable = ["ab", ("cd", "ef"), ["gh", "ij", ("kl", "mn")]]
+iterable = ['ab', ('cd', 'ef'), ['gh', 'ij', ('kl', 'mn')]]
 print(list(more_itertools.collapse(iterable, base_type=tuple)))
 
-iterable = [("a", ["b"]), ("c", ["d"])]
+iterable = [('a', ['b']), ('c', ['d'])]
 print(list(more_itertools.collapse(iterable, levels=1)))

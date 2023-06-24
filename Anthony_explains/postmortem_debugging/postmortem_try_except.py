@@ -12,7 +12,7 @@ def real_main():
     numbers = []
     for line in sys.stdin:
         line = line.strip()
-        if line == "done":
+        if line == 'done':
             break
 
         numbers.append(line)
@@ -20,7 +20,7 @@ def real_main():
     # if not numbers:
     #     print("no numbers were entered")
     #     return
-    print(f"The average is {average([float(n) for n in numbers])}")
+    print(f'The average is {average([float(n) for n in numbers])}')
 
 
 def main():
@@ -30,9 +30,9 @@ def main():
         import pdb
 
         pdb.post_mortem()
-        print(f"unexpected error occurred: {type(e).__name__}:  {e}")
+        print(f'unexpected error occurred: {type(e).__name__}:  {e}')
         # sys.exit(1)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()

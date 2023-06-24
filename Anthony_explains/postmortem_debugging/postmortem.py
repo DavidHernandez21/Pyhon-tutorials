@@ -13,16 +13,16 @@ def main():
     numbers = []
     for line in sys.stdin:
         line = line.strip()
-        if line == "done":
+        if line == 'done':
             break
 
         numbers.append(line)
 
     if not numbers:
-        print("no numbers were entered")
+        print('no numbers were entered')
         return
-    print(f"The average is {average([float(n) for n in numbers])}")
+    print(f'The average is {average([float(n) for n in numbers])}')
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()

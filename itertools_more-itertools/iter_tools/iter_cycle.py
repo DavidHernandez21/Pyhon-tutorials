@@ -1,7 +1,7 @@
 from itertools import cycle
 from itertools import islice
 
-players = ("John", "Ben", "Martin", "Peter", "David")
+players = ('John', 'Ben', 'Martin', 'Peter', 'David')
 
 next_player = cycle(players).__next__
 player = next_player()

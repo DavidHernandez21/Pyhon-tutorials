@@ -20,7 +20,7 @@ class Employee(Enum):
 def generate_random_team(size: int) -> list[Employee]:
     """Generate a random team with exactly one CEO."""
     if size <= 0:
-        raise ValueError("Team size must be greater than 0.")
+        raise ValueError('Team size must be greater than 0.')
 
     # team members without CEO
     team_no_ceo = list(Employee)

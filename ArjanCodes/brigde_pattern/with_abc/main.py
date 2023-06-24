@@ -30,5 +30,5 @@ def main() -> None:
     service2.stop_stream(reference2)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()

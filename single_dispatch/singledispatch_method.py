@@ -6,7 +6,7 @@ from functools import singledispatchmethod
 class Negator:
     @singledispatchmethod
     def neg(self, arg):
-        raise NotImplementedError("Cannot negate a")
+        raise NotImplementedError('Cannot negate a')
 
     @neg.register
     def _(self, arg: int):
@@ -18,13 +18,11 @@ class Negator:
 
 
 def main():
-
     negator = Negator()
 
     print(negator.neg(5))
     print(negator.neg(True))
 
 
-if __name__ == "__main__":
-
+if __name__ == '__main__':
     main()

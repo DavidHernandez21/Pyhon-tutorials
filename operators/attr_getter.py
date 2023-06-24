@@ -6,9 +6,9 @@ class Order:
         self.order_id = order_id
 
     def __repr__(self):
-        return f"Order({self.order_id})"
+        return f'Order({self.order_id})'
 
 
 orders = [Order(23), Order(6), Order(15), Order(11)]
 
-print(sorted(orders, key=attrgetter("order_id")))
+print(sorted(orders, key=attrgetter('order_id')))

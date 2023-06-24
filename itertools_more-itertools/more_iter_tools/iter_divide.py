@@ -1,7 +1,7 @@
 from more_itertools import distribute
 from more_itertools import divide
 
-data = ("first", "second", "third", "fourth", "fifth", "sixth", "seventh")
+data = ('first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh')
 
 print([tuple(l) for l in divide(4, data)])
 

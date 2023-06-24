@@ -20,13 +20,13 @@ class TimerError(Exception):
 
 
 class Timer:
-    __slots__ = ("_start_time", "name", "text", "logger")
-    timers = dict()
+    __slots__ = ('_start_time', 'name', 'text', 'logger')
+    timers = {}
 
     def __init__(
         self,
         name=None,
-        text="Elapsed time: {:0.4f} seconds",
+        text='Elapsed time: {:0.4f} seconds',
         logger=print,
     ):
         self._start_time = None
@@ -43,14 +43,14 @@ class Timer:
     def start(self):
         """Start a new timer"""
         if self._start_time is not None:
-            raise TimerError(f"Timer is running. Use .stop() to stop it")
+            raise TimerError('Timer is running. Use .stop() to stop it')
 
         self._start_time = perf_counter()
 
     def stop(self):
         """Stop the timer, and report the elapsed time"""
         if self._start_time is None:
-            raise TimerError(f"Timer is not running. Use .start() to start it")
+            raise TimerError('Timer is not running. Use .start() to start it')
 
         elapsed_time = perf_counter() - self._start_time
         self._start_time = None
@@ -65,9 +65,9 @@ class Timer:
 
 @dataclass()
 class TimerDataclass(ContextDecorator):
-    timers: ClassVar[Dict[str, float]] = dict()
+    timers: ClassVar[Dict[str, float]] = {}
     name: Optional[str] = None
-    text: str = "Elapsed time: {:0.4f} seconds"
+    text: str = 'Elapsed time: {:0.4f} seconds'
     logger: Optional[Callable[[str], None]] = print
     _start_time: Optional[float] = field(default=None, init=False, repr=False)
 
@@ -79,14 +79,14 @@ class TimerDataclass(ContextDecorator):
     def start(self):
         """Start a new timer"""
         if self._start_time is not None:
-            raise TimerError(f"Timer is running. Use .stop() to stop it")
+            raise TimerError('Timer is running. Use .stop() to stop it')
 
         self._start_time = perf_counter()
 
     def stop(self):
         """Stop the timer, and report the elapsed time"""
         if self._start_time is None:
-            raise TimerError(f"Timer is not running. Use .start() to start it")
+            raise TimerError('Timer is not running. Use .start() to start it')
 
         elapsed_time = perf_counter() - self._start_time
         self._start_time = None
@@ -120,38 +120,37 @@ class TimerDataclass(ContextDecorator):
 
 def main():
     """Print the 10 latest tutorials from Real Python"""
-    t = TimerDataclass(name="download", logger=logging.debug)
+    t = TimerDataclass(name='download', logger=logging.debug)
     for tutorial_num in range(2):
         t.start()
         sleep(randint(1, 2))
         t.stop()
         # print(tutorial)
 
-    download_time = TimerDataclass.timers["download"]
-    print(f"Downloaded 10 tutorials in {download_time:0.2f} seconds")
+    download_time = TimerDataclass.timers['download']
+    print(f'Downloaded 10 tutorials in {download_time:0.2f} seconds')
     print(t)
 
 
 def main2():
-
     with TimerDataclass() as t:
         for num in range(-3, 3):
             sleep(0.5)
-            print(f"1 / {num} = {1 / num:.3f}")
+            print(f'1 / {num} = {1 / num:.3f}')
         print(t.timers)
 
 
 def main3():
-    @TimerDataclass(logger=logging.debug, name="my_func")
+    @TimerDataclass(logger=logging.debug, name='my_func')
     def my_func():
         for num in range(1, 4):
             sleep(0.5)
-            print(f"1 / {num} = {1 / num:.3f}")
+            print(f'1 / {num} = {1 / num:.3f}')
 
     my_func()
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     # main()
     main2()
     # main3()

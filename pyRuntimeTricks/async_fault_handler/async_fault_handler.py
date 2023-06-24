@@ -1,16 +1,14 @@
-import sys
-from time import sleep
-
 import asyncio
+import sys
 import threading
+from time import sleep
 
 
 def _stacktraces(loop, interval, repeat, file=sys.stderr):
-
     i = 0
     while True:
         sleep(interval)
-        print(f"Async Tasks Dump #{i}:", file=file)
+        print(f'Async Tasks Dump #{i}:', file=file)
         i += 1
         for task in asyncio.all_tasks(loop):
             task.print_stack(file=file)

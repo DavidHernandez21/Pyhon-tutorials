@@ -8,5 +8,5 @@ def main_func():
     print(tot)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main_func()

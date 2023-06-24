@@ -11,7 +11,9 @@ from office import generate_random_team
 
 @composite
 def teams(
-    draw: Callable[[SearchStrategy[int]], int], min_size: int = 1, max_size: int = 10
+    draw: Callable[[SearchStrategy[int]], int],
+    min_size: int = 1,
+    max_size: int = 10,
 ) -> list[Employee]:
     rand_val = draw(integers(min_value=min_size, max_value=max_size))
     return generate_random_team(rand_val)

@@ -1,3 +1,4 @@
+import asyncio
 from collections.abc import Awaitable
 from typing import Any
 
@@ -7,8 +8,6 @@ from iot.devices import SmartToiletDevice
 from iot.message import Message
 from iot.message import MessageType
 from iot.service import IOTService
-
-import asyncio
 
 
 async def run_sequence(*functions: Awaitable[Any]) -> None:
@@ -40,7 +39,7 @@ async def main() -> None:
 
     wake_up_program_sequencial = (
         Message(speaker_id, MessageType.SWITCH_ON),
-        Message(speaker_id, MessageType.PLAY_SONG, "Miles Davis - Kind of Blue"),
+        Message(speaker_id, MessageType.PLAY_SONG, 'Miles Davis - Kind of Blue'),
     )
 
     sleep_program_parallel = (
@@ -85,5 +84,5 @@ async def main() -> None:
     )
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     asyncio.run(main())

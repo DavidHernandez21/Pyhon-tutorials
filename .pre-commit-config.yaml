@@ -1,36 +1,36 @@
-default_language_version:
-    python: python3.10
+# default_language_version:
+#     python: python3.10
 repos:
 -   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.3.0
+    rev: v4.4.0
     hooks:
     -   id: trailing-whitespace
     -   id: end-of-file-fixer
     -   id: check-yaml
     -   id: debug-statements
-        exclude: python_3_11/scripts/asyncio_task_groups.py
+        exclude: "python_3_11/scripts/asyncio_task_groups.py|Anthony_explains/postmortem_debugging/postmortem_try_except.py"
     -   id: double-quote-string-fixer
     -   id: name-tests-test
     -   id: requirements-txt-fixer
     -   id: detect-private-key
 -   repo: https://github.com/asottile/reorder_python_imports
-    rev: v3.9.0
+    rev: v3.10.0
     hooks:
     -   id: reorder-python-imports
         args: [--py39-plus]
 -   repo: https://github.com/psf/black
-    rev: 22.10.0
+    rev: 23.3.0
     hooks:
     -   id: black
         exclude: python_3_11/scripts/asyncio_task_groups.py
         args: [--skip-string-normalization]
 -   repo: https://github.com/asottile/add-trailing-comma
-    rev: v2.3.0
+    rev: v2.5.1
     hooks:
     -   id: add-trailing-comma
         args: [--py36-plus]
 -   repo: https://github.com/zricethezav/gitleaks
-    rev: v8.15.0
+    rev: v8.17.0
     hooks:
     -   id: gitleaks
         args: [--staged]

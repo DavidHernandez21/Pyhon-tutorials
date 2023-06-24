@@ -14,7 +14,9 @@ dates = (
     datetime.now() - timedelta(days=90),
 )
 
-is_old = lambda x: datetime.now() - x < timedelta(days=30)
+
+def is_old(x):
+    return datetime.now() - x < timedelta(days=30)
 
 
 def is_old_2(x):
@@ -29,21 +31,24 @@ print(list(recent))
 
 # Split based on file extension
 files = (
-    "foo.jpg",
-    "bar.exe",
-    "baz.gif",
-    "text.txt",
-    "data.bin",
+    'foo.jpg',
+    'bar.exe',
+    'baz.gif',
+    'text.txt',
+    'data.bin',
 )
 
 my_str: str
 
-ALLOWED_EXTENSIONS = ("jpg", "jpeg", "gif", "bmp", "png")
-is_allowed = lambda my_str: my_str.split(".")[1] in ALLOWED_EXTENSIONS
+ALLOWED_EXTENSIONS = ('jpg', 'jpeg', 'gif', 'bmp', 'png')
+
+
+def is_allowed(my_str):
+    return my_str.split('.')[1] in ALLOWED_EXTENSIONS
 
 
 def is_allowed_2(x):
-    return x.split(".")[1] in ALLOWED_EXTENSIONS
+    return x.split('.')[1] in ALLOWED_EXTENSIONS
 
 
 allowed, forbidden = partition(is_allowed_2, files)

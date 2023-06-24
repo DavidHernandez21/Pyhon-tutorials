@@ -36,8 +36,8 @@ def show_vars(e):
     line = tb.tb_lineno - code.co_firstlineno + 1
     source = inspect.getsource(code)
     traceback.print_tb(tb)
-    sys.stderr.write("Variables Values:\n")
+    sys.stderr.write('Variables Values:\n')
     for name in _get_vars_names(source, line):
         if name in frame.f_locals:
-            sys.stderr.write(f"{name} = {frame.f_locals[name]}\n")
+            sys.stderr.write(f'{name} = {frame.f_locals[name]}\n')
             sys.stderr.flush()

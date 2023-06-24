@@ -8,7 +8,7 @@ num_events = 0
 def _increment_num_events(event: int):
     global num_events
     if event % 2 == 0:
-        print(f"{event} is even")
+        print(f'{event} is even')
         num_events += 1
 
 

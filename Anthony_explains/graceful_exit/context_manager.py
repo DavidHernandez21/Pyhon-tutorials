@@ -8,7 +8,7 @@ class C:
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
-        print("world")
+        print('world')
 
 
 class SigTerm(SystemExit):
@@ -16,7 +16,7 @@ class SigTerm(SystemExit):
 
 
 def term_cb(signal: int, frame: FrameType) -> None:
-    print(f"{frame=}")
+    print(f'{frame=}')
     print(dir(frame))
     raise SigTerm(1)
 

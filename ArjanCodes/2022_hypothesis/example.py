@@ -6,4 +6,4 @@ def to_ascii_codes(inp: str) -> list[int]:
 
 
 def from_ascii_codes(inp: list[int]) -> str:
-    return reduce(lambda x, y: x + chr(y), inp, "")
+    return reduce(lambda x, y: x + chr(y), inp, '')

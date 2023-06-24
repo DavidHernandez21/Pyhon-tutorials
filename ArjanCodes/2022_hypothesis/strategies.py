@@ -14,5 +14,5 @@ def main() -> None:
     print(integers(min_value=0, max_value=10).filter(lambda x: x % 2 == 1).example())
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()

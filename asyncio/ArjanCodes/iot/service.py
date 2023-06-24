@@ -1,3 +1,4 @@
+import asyncio
 import random
 import string
 from collections.abc import Awaitable
@@ -8,11 +9,9 @@ from typing import Protocol
 from iot.message import Message
 from iot.message import MessageType
 
-import asyncio
-
 
 def generate_id(length: int = 8):
-    return "".join(random.choices(string.ascii_uppercase, k=length))
+    return ''.join(random.choices(string.ascii_uppercase, k=length))
 
 
 class Device(Protocol):
@@ -23,7 +22,10 @@ class Device(Protocol):
         ...
 
     async def send_message(
-        self, message_type: MessageType, data: str = "", duration: float = 0.5
+        self,
+        message_type: MessageType,
+        data: str = '',
+        duration: float = 0.5,
     ) -> None:
         ...
 
@@ -46,36 +48,37 @@ class IOTService:
         return self.devices[device_id]
 
     async def run_program(self, program: list[Message]) -> None:
-        print("=====RUNNING PROGRAM======")
+        print('=====RUNNING PROGRAM======')
         await asyncio.gather(*[self.send_msg(msg) for msg in program])
-        print("=====END OF PROGRAM======")
+        print('=====END OF PROGRAM======')
 
     async def run_program_parallel(self, *functions: Awaitable[Any]) -> None:
-        print("=====RUNNING PROGRAM IN PARALLEL======")
+        print('=====RUNNING PROGRAM IN PARALLEL======')
         await asyncio.gather(*functions)
-        print("=====END OF PROGRAM IN PARALLEL======")
+        print('=====END OF PROGRAM IN PARALLEL======')
 
     async def run_program_sequence(self, *functions: Awaitable[Any]) -> None:
-
-        print("=====RUNNING PROGRAM IN SEQUENCE======")
+        print('=====RUNNING PROGRAM IN SEQUENCE======')
         for function in functions:
-
             await function
 
-        print("=====END OF PROGRAM IN SEQUENCE======")
+        print('=====END OF PROGRAM IN SEQUENCE======')
 
     async def run_program_parseq(
         self,
         functions_parallel: Iterable[Awaitable[Any]],
         functions_sequence: Iterable[Awaitable[Any]],
     ) -> None:
-        print("=====RUNNING PROGRAM======")
+        print('=====RUNNING PROGRAM======')
         await self.run_program_parallel(
-            *functions_parallel, self.run_program_sequence(*functions_sequence)
+            *functions_parallel,
+            self.run_program_sequence(*functions_sequence),
         )
-        print("=====END OF PROGRAM======")
+        print('=====END OF PROGRAM======')
 
     async def send_msg(self, msg: Message) -> None:
         await self.devices[msg.device_id].send_message(
-            msg.msg_type, msg.data, duration=msg.duration
+            msg.msg_type,
+            msg.data,
+            duration=msg.duration,
         )

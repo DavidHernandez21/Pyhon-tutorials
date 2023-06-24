@@ -1,14 +1,13 @@
+import asyncio
 import re
 import time
 
 import httpx
 import requests
 
-import asyncio
-
 
 def count_https_in_web_pages():
-    with open("top15USWebsites.txt", "r", encoding="utf-8") as f:
+    with open('top15USWebsites.txt', 'r', encoding='utf-8') as f:
         urls = [line.strip() for line in f.readlines()]
 
     htmls = []
@@ -18,18 +17,18 @@ def count_https_in_web_pages():
     count_https = 0
     count_http = 0
     for html in htmls:
-        count_https += len(re.findall("https://", html))
-        count_http += len(re.findall("http://", html))
+        count_https += len(re.findall('https://', html))
+        count_http += len(re.findall('http://', html))
 
-    print("finished parsing")
+    print('finished parsing')
     time.sleep(2.0)
-    print(f"{count_https=}")
-    print(f"{count_http=}")
-    print(f"{count_https/count_http=}")
+    print(f'{count_https=}')
+    print(f'{count_http=}')
+    print(f'{count_https/count_http=}')
 
 
 async def better_count_https_in_web_pages():
-    with open("top15USWebsites.txt", "r", encoding="utf-8") as f:
+    with open('top15USWebsites.txt', 'r', encoding='utf-8') as f:
         urls = [line.strip() for line in f.readlines()]
 
     async with httpx.AsyncClient(timeout=100) as client:
@@ -41,13 +40,13 @@ async def better_count_https_in_web_pages():
     count_https = 0
     count_http = 0
     for html in htmls:
-        count_https += len(re.findall("https://", html))
-        count_http += len(re.findall("http://", html))
+        count_https += len(re.findall('https://', html))
+        count_http += len(re.findall('http://', html))
 
-    print("finished parsing")
-    print(f"{count_https=}")
-    print(f"{count_http=}")
-    print(f"{count_https/count_http=}")
+    print('finished parsing')
+    print(f'{count_https=}')
+    print(f'{count_http=}')
+    print(f'{count_https/count_http=}')
 
 
 def main():
@@ -61,8 +60,8 @@ def main():
     stats = pstats.Stats(pr)
     stats.sort_stats(pstats.SortKey.TIME)
     # stats.print_stats()
-    stats.dump_stats(filename="needs_profiling.prof")
+    stats.dump_stats(filename='needs_profiling.prof')
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()

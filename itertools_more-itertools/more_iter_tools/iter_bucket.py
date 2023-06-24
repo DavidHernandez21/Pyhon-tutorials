@@ -3,21 +3,21 @@ import more_itertools
 
 class Cube:
     def __repr__(self) -> str:
-        return "Cube"
+        return 'Cube'
 
     pass
 
 
 class Circle:
     def __repr__(self) -> str:
-        return "Circle"
+        return 'Circle'
 
     pass
 
 
 class Triangle:
     def __repr__(self) -> str:
-        return "Triangle"
+        return 'Triangle'
 
     pass
 
