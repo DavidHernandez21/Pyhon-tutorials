@@ -1,0 +1,5 @@
+[tool.ruff]
+extend-select = ["C4", "SIM", "TCH"]
+show-fixes = true
+target-version = "py310"
+line-length = 120
