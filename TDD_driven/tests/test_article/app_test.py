@@ -11,7 +11,7 @@ from jsonschema import validate
 
 @pytest.fixture
 def client():
-    app.config["TESTING"] = True
+    app.config['TESTING'] = True
 
     with app.test_client() as client:
         yield client
@@ -21,14 +21,14 @@ def validate_payload(payload: Dict, schema_name: str):
     """
     Validate payload with selected schema
     """
-    schemas_dir = pathlib.Path(pathlib.Path(__file__).parent.absolute(), "schemas")
+    schemas_dir = pathlib.Path(pathlib.Path(__file__).parent.absolute(), 'schemas')
     schema = json.loads(pathlib.Path(schemas_dir, schema_name).read_text())
     # print(f"file://{str(pathlib.Path(schemas_dir, schema_name).absolute())}")
     validate(
         payload,
         schema,
         resolver=RefResolver(
-            f"file://{str(pathlib.Path(schemas_dir, schema_name).absolute())}",
+            f'file://{str(pathlib.Path(schemas_dir, schema_name).absolute())}',
             schema,  # it's used to resolve the file inside schemas correctly
         ),
     )
@@ -41,17 +41,17 @@ def test_create_article(client):
     THEN it should return Article in json format that matches the schema
     """
     data = {
-        "author": "john@doe.com",
-        "title": "New Article",
-        "content": "Some extra awesome content",
+        'author': 'john@doe.com',
+        'title': 'New Article',
+        'content': 'Some extra awesome content',
     }
     response = client.post(
-        "/create-article",
+        '/create-article',
         data=json.dumps(data),
-        content_type="application/json",
+        content_type='application/json',
     )
 
-    validate_payload(response.json, "Article.json")
+    validate_payload(response.json, 'Article.json')
 
 
 def test_get_article(client):
@@ -61,16 +61,16 @@ def test_get_article(client):
     THEN it should return Article in json format that matches the schema
     """
     article = ArticleManager().save(
-        author="jane@doe.com",
-        title="New Article",
-        content="Super extra awesome article",
+        author='jane@doe.com',
+        title='New Article',
+        content='Super extra awesome article',
     )
     response = client.get(
-        f"/article/{article.id}/",
-        content_type="application/json",
+        f'/article/{article.id}/',
+        content_type='application/json',
     )
 
-    validate_payload(response.json, "Article.json")
+    validate_payload(response.json, 'Article.json')
 
 
 # def test_list_articles(client):
@@ -93,18 +93,18 @@ def test_get_article(client):
 
 
 @pytest.mark.parametrize(
-    "data",
+    'data',
     [
         {
-            "author": "John Doe",
-            "title": "New Article",
-            "content": "Some extra awesome content",
+            'author': 'John Doe',
+            'title': 'New Article',
+            'content': 'Some extra awesome content',
         },
         {
-            "author": "John Doe",
-            "title": "New Article",
+            'author': 'John Doe',
+            'title': 'New Article',
         },
-        {"author": "John Doe", "title": None, "content": "Some extra awesome content"},
+        {'author': 'John Doe', 'title': None, 'content': 'Some extra awesome content'},
     ],
 )
 def test_create_article_bad_request(client, data):
@@ -114,9 +114,9 @@ def test_create_article_bad_request(client, data):
     THEN it should return status 400
     """
     response = client.post(
-        "/create-article",
+        '/create-article',
         data=json.dumps(data),
-        content_type="application/json",
+        content_type='application/json',
     )
 
     assert response.status_code == 400

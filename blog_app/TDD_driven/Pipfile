@@ -1,0 +1,15 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+pydantic = {extras = ["email"], version = "*"}
+flask = "*"
+
+[dev-packages]
+pytest = "*"
+jsonschema = "*"
+
+[requires]
+python_version = "3.9"

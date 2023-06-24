@@ -10,12 +10,14 @@ def test_list_articles():
     THEN it should return 2 articles
     """
     ArticleManager().save(
-        author="jane@doe.com",
-        title="New Article",
-        content="Super extra awesome article",
+        author='jane@doe.com',
+        title='New Article',
+        content='Super extra awesome article',
     )
     ArticleManager().save(
-        author="jane@doe.com", title="Another Article", content="Super awesome article"
+        author='jane@doe.com',
+        title='Another Article',
+        content='Super awesome article',
     )
 
     query = ListArticlesQuery()
@@ -30,9 +32,9 @@ def test_get_article_by_id():
     THEN it should return the article with the same ID
     """
     article = ArticleManager().save(
-        author="jane@doe.com",
-        title="New Article",
-        content="Super extra awesome article",
+        author='jane@doe.com',
+        title='New Article',
+        content='Super extra awesome article',
     )
 
     query = GetArticleByIDQuery(id=article.id)
