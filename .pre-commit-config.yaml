@@ -9,7 +9,7 @@ repos:
     -   id: check-yaml
     -   id: debug-statements
         exclude: "python_3_11/scripts/asyncio_task_groups.py|Anthony_explains/postmortem_debugging/postmortem_try_except.py"
-    -   id: double-quote-string-fixer
+    # -   id: double-quote-string-fixer
     -   id: name-tests-test
     -   id: requirements-txt-fixer
     -   id: detect-private-key
@@ -18,12 +18,12 @@ repos:
     hooks:
     -   id: reorder-python-imports
         args: [--py39-plus]
--   repo: https://github.com/psf/black
-    rev: 24.4.2
-    hooks:
-    -   id: black
-        exclude: python_3_11/scripts/asyncio_task_groups.py
-        args: [--skip-string-normalization]
+# -   repo: https://github.com/psf/black
+#     rev: 24.4.2
+#     hooks:
+#     -   id: black
+#         exclude: python_3_11/scripts/asyncio_task_groups.py
+#         args: [--skip-string-normalization]
 -   repo: https://github.com/asottile/add-trailing-comma
     rev: v3.1.0
     hooks:
@@ -38,6 +38,15 @@ repos:
     rev: v8.18.4
     hooks:
         - id: gitleaks
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  # Ruff version.
+  rev: v0.5.1
+  hooks:
+    # Run the linter.
+    - id: ruff
+      args: [ --fix ]
+    # Run the formatter.
+    - id: ruff-format
 # -   repo: https://github.com/tonybaloney/perflint
 #     rev: c07391c17671c3c9d5a7fd69120d1f570e268d58
 #     hooks:

@@ -1,5 +1,7 @@
 [tool.ruff]
-extend-select = ["C4", "SIM", "TCH"]
 show-fixes = true
-target-version = "py310"
+target-version = "py312"
 line-length = 120
+
+[tool.lint.ruff]
+extend-select = ["C4", "SIM", "TCH"]
